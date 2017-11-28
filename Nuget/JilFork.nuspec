@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>JilFork</id>
+    <version>2.18.0.0</version>
+    <title>JilFork</title>
+    <authors>Ivan Antipov</authors>
+    <owners>Ivan Antipov</owners>
+    <licenseUrl>https://github.com/IvanAntipov/Jil/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/IvanAntipov/Jil</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Fast JSON Serializer</description>
+    <releaseNotes>Fork with additional features</releaseNotes>
+    <copyright>Copyright 2016</copyright>    
+  
+    <dependencies>
+      <group>
+        <dependency id="Sigil" version="4.7.0" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\Jil\bin\Release\JilFork.*"/>
+  </files>
+</package>
