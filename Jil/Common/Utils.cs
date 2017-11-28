@@ -1,17 +1,13 @@
-﻿using Sigil;
-using Sigil.NonGeneric;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
+using Sigil;
+using Sigil.NonGeneric;
 
-namespace Jil.Common
+namespace JilFork.Common
 {
     class Utils
     {
@@ -1440,21 +1436,21 @@ namespace Jil.Common
             return (long)Math.Pow(10, power);
         }
 
-        public static bool CheckUnionLegality(DateTimeFormat dateFormat, string memberName, IEnumerable<MemberInfo> possible, out Dictionary<char, MemberInfo> discriminantChars, out MemberInfo destinationType, out Dictionary<UnionCharsets, MemberInfo> charsetToMember, out bool allowsNull, out string errorMessage)
+        public static bool CheckUnionLegality(DateTimeFormat dateFormat, string memberName, IEnumerable<MemberInfo> possible, out IReadOnlyCollection<Discriminant> discriminants, out MemberInfo destinationType, out bool allowsNull, out string errorMessage)
         {
-            charsetToMember = new Dictionary<UnionCharsets, MemberInfo>();
+            //charsetToMember = new Dictionary<UnionCharsets, MemberInfo>();
             allowsNull = false;
             destinationType = null;
 
-            var charsToMembers = new Dictionary<char, List<MemberInfo>>();
-
+            var charsToMembers= new List<Discriminant>();
+            var multipleArrayMembers = possible.Where(member => member.ReturnType().IsArray).Count() > 1;
             foreach (var member in possible)
             {
                 var attr = member.GetCustomAttribute<JilDirectiveAttribute>();
                 if (attr == null || !attr.IsUnion)
                 {
-                    discriminantChars = null;
                     errorMessage = "Member [" + member.Name + "] isn't marked as part of a union, but other members share the same Name [" + memberName + "]";
+                    discriminants = null;
                     return false;
                 }
 
@@ -1462,7 +1458,7 @@ namespace Jil.Common
                 {
                     if (member.ReturnType() != typeof(Type))
                     {
-                        discriminantChars = null;
+                        discriminants = null;
                         errorMessage = "Member [" + member.Name + "] has IsUnionType set, but is not of type System.Type";
                         return false;
                     }
@@ -1470,14 +1466,14 @@ namespace Jil.Common
                     var asProp = member as PropertyInfo;
                     if (asProp != null && asProp.SetMethod == null)
                     {
-                        discriminantChars = null;
+                        discriminants = null;
                         errorMessage = "Member [" + member.Name + "] has IsUnionType set, but has no set method";
                         return false;
                     }
 
                     if (destinationType != null)
                     {
-                        discriminantChars = null;
+                        discriminants = null;
                         errorMessage = "Member [" + member.Name + "] has IsUnionType set, but IsUnionType is also set for [" + destinationType.Name + "]";
                         return false;
                     }
@@ -1494,63 +1490,114 @@ namespace Jil.Common
 
                 UnionCharsets perMember;
                 var dis = GetDescriminantCharacters(memberType, dateFormat, out perMember);
-                foreach (var e in Enum.GetValues(typeof(UnionCharsets)).Cast<UnionCharsets>().Where(x => perMember.HasFlag(x)))
+
+
+                var memberFlags = Enum.GetValues(typeof(UnionCharsets)).Cast<UnionCharsets>()
+                    .Where(x => perMember.HasFlag(x));
+
+                Subdiscriminant subDiscriminant = null;
+                if (member.ReturnType().IsArray && multipleArrayMembers)
                 {
-                    charsetToMember[e] = member;
+                    UnionCharsets subPerMember;
+                    var subDiscriminantChars= GetDescriminantCharacters(memberType.GetElementType(), dateFormat, out subPerMember);
+                    var subMemberFlags = Enum.GetValues(typeof(UnionCharsets)).Cast<UnionCharsets>()
+                        .Where(x => subPerMember.HasFlag(x));
+                    subDiscriminant = new Subdiscriminant(subDiscriminantChars.ToList(), subMemberFlags.ToList());
+                    
                 }
-
-                charsetToMember[perMember] = member;
-
-                foreach (var c in dis)
-                {
-                    List<MemberInfo> mems;
-                    if (!charsToMembers.TryGetValue(c, out mems))
-                    {
-                        charsToMembers[c] = mems = new List<MemberInfo>();
-                    }
-
-                    mems.Add(member);
-                }
+                charsToMembers.Add(new Discriminant(memberFlags.ToList().AsReadOnly(), dis.ToList().AsReadOnly(), member, subDiscriminant));
+                                
             }
 
-            var ambiguousCharsToMembers = charsToMembers.Where(kv => kv.Value.Count > 1).ToDictionary(kv => kv.Key, kv => new MemberGroup(kv.Value));
+            var ambiguousCharsToMembers = charsToMembers
+                .SelectMany(memberDiscriminator =>
+                    memberDiscriminator
+                        .Chars
+                        .SelectMany(disChar =>
+                            (memberDiscriminator
+                                .Subdiscriminant?
+                                .Chars
+                                .Select(i => (char?)i)
+                                .ToList()
+                                ??new List<char?>(){null})
+                            .Select(subChar => 
+                                new
+                                {
+                                    DisChar = disChar,
+                                    SubChar = subChar,
+                                    Member = memberDiscriminator.Member
+                                })))
+                .GroupBy(d => d.DisChar)
+                .Where(g =>                     
+                    g.Count()>1 && (g.Any(d => d.SubChar == null)||g.Select(ge => ge.SubChar).Distinct().Count()!=g.Count()))
+                .ToList();
+
             if(ambiguousCharsToMembers.Any())
             {
-                var conflicts = 
-                    ambiguousCharsToMembers
-                        .GroupBy(kv => kv.Value)
-                        .Select(
-                            g => 
-                                Tuple.Create(
-                                    g.Select(kv => kv.Key).Distinct().OrderBy(_ => _).ToList(), 
-                                    g.Key.Members
-                                )
-                        )
-                        .ToList();
+                //var conflicts = 
+                //    ambiguousCharsToMembers
+                //        .GroupBy(kv => kv.Members)
+                //        .Select(
+                //            g => 
+                //                Tuple.Create(
+                //                    g.Select(kv => kv.Key).Distinct().OrderBy(_ => _).ToList(), 
+                //                    g.Key.Members
+                //                )
+                //        )
+                //        .ToList();
 
                 errorMessage =
                     string.Join("; ",
-                        conflicts
+                        ambiguousCharsToMembers
                             .Select(
-                                t =>
+                                g =>
                                     "The members  [" +
-                                        string.Join(", ", t.Item2.Select(m => m.Name)) +
+                                        string.Join(", ", g.Select(m => m.Member.Name)) +
                                     "] cannot be distiguished in a union because they can each start with these characters [" +
-                                        string.Join(", ", t.Item1) +
+                                        string.Join(", ", g.Key) +
                                     "]"
                             )
                             .OrderBy(_ => _)
                     );
 
-                discriminantChars = null;
+                discriminants = null;
                 return false;
             }
 
-            discriminantChars = charsToMembers.ToDictionary(kv => kv.Key, kv => kv.Value.Single());
+            discriminants = charsToMembers;
             errorMessage = null;
             return true;
         }
 
+        public class Discriminant
+        {
+            public Discriminant(IReadOnlyCollection<UnionCharsets> charSet, IReadOnlyCollection<char> c, MemberInfo member, Subdiscriminant subdiscriminant)
+            {
+                CharSet = charSet;
+                Chars = c;
+                Member = member;
+                Subdiscriminant = subdiscriminant;
+            }
+
+            public IReadOnlyCollection<UnionCharsets> CharSet { get; }
+            public IReadOnlyCollection<char> Chars { get; }
+            public MemberInfo Member { get; }
+            /// <summary>
+            /// May benull
+            /// </summary>
+            public Subdiscriminant Subdiscriminant { get; }
+        }
+        public class Subdiscriminant
+        {
+            public Subdiscriminant(IReadOnlyCollection<char> c, IReadOnlyCollection<UnionCharsets> charSet)
+            {
+                CharSet = charSet;
+                Chars = c;
+            }
+
+            public IReadOnlyCollection<UnionCharsets> CharSet { get; }
+            public IReadOnlyCollection<char> Chars { get; }          
+        }
         class MemberGroup : IEquatable<MemberGroup>
         {
             public List<MemberInfo> Members {get; private set;}

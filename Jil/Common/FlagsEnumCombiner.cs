@@ -1,8 +1,8 @@
-﻿using Sigil;
-using System;
+﻿using System;
 using System.Collections;
+using Sigil;
 
-namespace Jil.Common
+namespace JilFork.Common
 {
     class FlagsEnumCombiner<TEnum>
         where TEnum : struct

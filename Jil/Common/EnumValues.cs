@@ -1,13 +1,10 @@
-﻿using Sigil;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Sigil;
 
-namespace Jil.Common
+namespace JilFork.Common
 {
     static class EnumValues<TEnum>
         where TEnum : struct

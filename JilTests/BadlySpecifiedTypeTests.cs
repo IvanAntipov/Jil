@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using JilFork;
 
 namespace JilTests
 {
@@ -10,7 +11,7 @@ namespace JilTests
         public void SerializeString()
         {
             object obj = new { Foo = 123, Bar = "abc" };
-            string s = Jil.JSON.Serialize(obj), t = Jil.JSON.SerializeDynamic(obj);
+            string s = JSON.Serialize(obj), t = JSON.SerializeDynamic(obj);
             Assert.AreEqual(t, s);
         }
 
@@ -19,17 +20,17 @@ namespace JilTests
         {
             object obj = new { Foo = 123, Bar = "abc" };
             StringWriter s = new StringWriter(), t = new StringWriter();
-            Jil.JSON.Serialize(obj, s);
-            Jil.JSON.SerializeDynamic(obj, t);
+            JSON.Serialize(obj, s);
+            JSON.SerializeDynamic(obj, t);
             Assert.AreEqual(t.ToString(), s.ToString());
         }
 
         [TestMethod]
         public void DeserializeString()
         {
-            string json = Jil.JSON.SerializeDynamic(new { Foo = 123, Bar = "abc" });
-            dynamic s = Jil.JSON.Deserialize<object>(json),
-                t = Jil.JSON.DeserializeDynamic(json);
+            string json = JSON.SerializeDynamic(new { Foo = 123, Bar = "abc" });
+            dynamic s = JSON.Deserialize<object>(json),
+                t = JSON.DeserializeDynamic(json);
             Assert.AreEqual((int)t.Foo, (int)s.Foo);
             Assert.AreEqual((string)t.Bar, (string)s.Bar);
         }
@@ -37,9 +38,9 @@ namespace JilTests
         [TestMethod]
         public void DeserializeReader()
         {
-            string json = Jil.JSON.SerializeDynamic(new { Foo = 123, Bar = "abc" });
-            dynamic s = Jil.JSON.Deserialize<object>(new StringReader(json)),
-                t = Jil.JSON.DeserializeDynamic(new StringReader(json));
+            string json = JSON.SerializeDynamic(new { Foo = 123, Bar = "abc" });
+            dynamic s = JSON.Deserialize<object>(new StringReader(json)),
+                t = JSON.DeserializeDynamic(new StringReader(json));
             Assert.AreEqual((int)t.Foo, (int)s.Foo);
             Assert.AreEqual((string)t.Bar, (string)s.Bar);
         }

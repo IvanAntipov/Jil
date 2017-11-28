@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Jil.Deserialize
+﻿namespace JilFork.Deserialize
 {
     delegate T StringThunkDelegate<T>(ref ThunkReader writer, int depth);
 
@@ -14,6 +8,18 @@ namespace Jil.Deserialize
         int Index;
 
         public int Position { get { return Index + 1; } }
+
+        int IndexOrLen
+        {
+            get
+            {
+                if (Index > Value.Length)
+                {
+                    return Value.Length;
+                }
+                return Index;
+            }
+        }
 
         public ThunkReader(string val) : this()
         {

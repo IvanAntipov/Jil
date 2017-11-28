@@ -1,8 +1,8 @@
-﻿using Jil.Common;
-using System;
+﻿using System;
 using System.Reflection;
+using JilFork.Common;
 
-namespace Jil
+namespace JilFork
 {
     /// <summary>
     /// An exception thrown when Jil encounters an error while serializing an object.

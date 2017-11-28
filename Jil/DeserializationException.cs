@@ -1,10 +1,10 @@
-﻿using Jil.Deserialize;
-using System;
+﻿using System;
 using System.IO;
 using System.Text;
-using Jil.Common;
+using JilFork.Common;
+using JilFork.Deserialize;
 
-namespace Jil
+namespace JilFork
 {
     /// <summary>
     /// An exception thrown when Jil encounters an error when deserializing a stream.

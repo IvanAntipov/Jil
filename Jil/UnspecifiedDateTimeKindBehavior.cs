@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Jil
+﻿namespace JilFork
 {
     /// <summary>
     /// Specifies what to convert a DateTime to if it has DateTimeKind.Unspecified as it's Kind.

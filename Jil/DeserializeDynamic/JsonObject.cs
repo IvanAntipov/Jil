@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Dynamic;
 
-namespace Jil.DeserializeDynamic
+namespace JilFork.DeserializeDynamic
 {
     sealed partial class JsonObject : IDynamicMetaObjectProvider
     {

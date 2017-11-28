@@ -7,10 +7,8 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Jil.Common
+namespace JilFork.Common
 {
     static class ExtensionMethods
     {
@@ -238,6 +236,9 @@ namespace Jil.Common
 
             var asStreamReader = inner as StreamReader;
             if(asStreamReader != null && asStreamReader.BaseStream.CanSeek) return asStreamReader;
+
+            var asPeekSupportingReader = inner as PeekSupportingTextReader;
+            if(asPeekSupportingReader != null ) return asPeekSupportingReader;
 
             return new PeekSupportingTextReader(inner);
         }

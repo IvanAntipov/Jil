@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace Jil.DeserializeDynamic
+namespace JilFork.DeserializeDynamic
 {
     sealed partial class JsonObject : ICustomTypeDescriptor
     {

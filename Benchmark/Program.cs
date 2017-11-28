@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using SimpleSpeedTester.Core;
 using System.Reflection;
 using Newtonsoft.Json;
-using Jil;
+using JilFork;
 using System.IO;
 using Benchmark.Models;
 using System.Diagnostics;

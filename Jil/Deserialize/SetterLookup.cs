@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Jil.Common;
-using System.IO;
-using Sigil;
+using JilFork.Common;
 
-namespace Jil.Deserialize
+namespace JilFork.Deserialize
 {
     delegate int SetterLookupThunkReaderDelegate(ref ThunkReader reader);
 

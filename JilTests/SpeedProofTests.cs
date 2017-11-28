@@ -1,7 +1,4 @@
-﻿using Jil;
-using Jil.Deserialize;
-using Jil.Serialize;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JilFork;
 
 namespace JilTests
 {
@@ -107,7 +105,7 @@ namespace JilTests
             return new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
         }
 
-        private static void CompareTimes<T>(List<string> asStrings, Jil.Options opts, Func<TextReader, int, T> a, Func<TextReader, int, T> b, out double aTimeMS, out double bTimeMS)
+        private static void CompareTimes<T>(List<string> asStrings, Options opts, Func<TextReader, int, T> a, Func<TextReader, int, T> b, out double aTimeMS, out double bTimeMS)
         {
             var aTimer = new Stopwatch();
             var bTimer = new Stopwatch();
@@ -169,9 +167,9 @@ namespace JilTests
             bTimeMS = bTimer.ElapsedMilliseconds;
         }
 
-        private static void CompareTimes<T>(List<T> toSerialize, Jil.Options opts, Func<TextReader, int, T> a, Func<TextReader, int, T> b, out double aTimeMS, out double bTimeMS)
+        private static void CompareTimes<T>(List<T> toSerialize, Options opts, Func<TextReader, int, T> a, Func<TextReader, int, T> b, out double aTimeMS, out double bTimeMS)
         {
-            var asStrings = toSerialize.Select(o => Jil.JSON.Serialize(o, opts)).ToList();
+            var asStrings = toSerialize.Select(o => JSON.Serialize(o, opts)).ToList();
 
             CompareTimes(asStrings, opts, a, b, out aTimeMS, out bTimeMS);
         }

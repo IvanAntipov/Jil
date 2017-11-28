@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using Jil;
+using JilFork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace JilTests

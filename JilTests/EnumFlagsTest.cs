@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Jil;
+using JilFork;
 using JilTests.Hashbrowns.Shared.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

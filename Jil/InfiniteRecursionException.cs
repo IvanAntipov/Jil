@@ -1,7 +1,7 @@
-﻿using Jil.Common;
-using System;
+﻿using System;
+using JilFork.Common;
 
-namespace Jil
+namespace JilFork
 {
     /// <summary>
     /// An exception throw when Jil suspects it's in an infinite recursive case.

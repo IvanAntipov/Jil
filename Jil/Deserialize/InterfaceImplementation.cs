@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
-using Jil.Common;
-using Sigil.NonGeneric;
+using JilFork.Common;
 
-namespace Jil.Deserialize
+namespace JilFork.Deserialize
 {
     static class InterfaceImplementation<Interface>
     {

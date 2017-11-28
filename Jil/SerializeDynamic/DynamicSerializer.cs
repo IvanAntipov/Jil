@@ -1,20 +1,18 @@
 ﻿using System;
-using Jil.Common;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.CSharp.RuntimeBinder;
-using System.Runtime.CompilerServices;
-using Jil.Serialize;
-using System.Collections;
-using Sigil.NonGeneric;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using JilFork.Common;
+using JilFork.DeserializeDynamic;
+using JilFork.Serialize;
+using Microsoft.CSharp.RuntimeBinder;
+using Sigil.NonGeneric;
 
-namespace Jil.SerializeDynamic
+namespace JilFork.SerializeDynamic
 {
     class DynamicSerializer
     {
@@ -58,7 +56,7 @@ namespace Jil.SerializeDynamic
             stream.Write('{');
             depth++;
 
-            var asJilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var asJilDyn = dyn as JsonObject;
             if (asJilDyn != null)
             {
                 var first = true;
@@ -287,7 +285,7 @@ namespace Jil.SerializeDynamic
                 return false;
             }
 
-            var jilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var jilDyn = dyn as JsonObject;
             if (jilDyn != null)
             {
                 return jilDyn.TryCastBool(out bit);
@@ -348,7 +346,7 @@ namespace Jil.SerializeDynamic
                 return false;
             }
 
-            var jilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var jilDyn = dyn as JsonObject;
             if (jilDyn != null)
             {
                 return jilDyn.TryCastInteger(out integer, out negative);
@@ -427,7 +425,7 @@ namespace Jil.SerializeDynamic
                 return false;
             }
 
-            var jilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var jilDyn = dyn as JsonObject;
             if (jilDyn != null)
             {
                 return jilDyn.TryCastFloatingPoint(out floatingPoint);
@@ -483,7 +481,7 @@ namespace Jil.SerializeDynamic
                 return false;
             }
 
-            var jilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var jilDyn = dyn as JsonObject;
             if (jilDyn != null)
             {
                 if (jilDyn.IsAmbiguousAsDateTime())
@@ -529,7 +527,7 @@ namespace Jil.SerializeDynamic
                 return false;
             }
 
-            var jilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var jilDyn = dyn as JsonObject;
             if (jilDyn != null)
             {
                 if (jilDyn.IsAmbiguousAsDateTime())
@@ -575,7 +573,7 @@ namespace Jil.SerializeDynamic
                 return false;
             }
 
-            var jilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var jilDyn = dyn as JsonObject;
             if (jilDyn != null)
             {
                 return jilDyn.TryCastTimeSpan(out ts);
@@ -615,7 +613,7 @@ namespace Jil.SerializeDynamic
                 return false;
             }
 
-            var jilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var jilDyn = dyn as JsonObject;
             if (jilDyn != null)
             {
                 return jilDyn.TryCastGuid(out guid);
@@ -662,7 +660,7 @@ namespace Jil.SerializeDynamic
                 return false;
             }
 
-            var jilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var jilDyn = dyn as JsonObject;
             if(jilDyn != null)
             {
                 return jilDyn.TryCastString(out str);
@@ -719,7 +717,7 @@ namespace Jil.SerializeDynamic
                 return true;
             }
 
-            var jilDyn = dyn as Jil.DeserializeDynamic.JsonObject;
+            var jilDyn = dyn as JsonObject;
             if (jilDyn != null)
             {
                 if (jilDyn.TryConvertEnumerable(out enumerable) && !jilDyn.IsDictionary()) return true;

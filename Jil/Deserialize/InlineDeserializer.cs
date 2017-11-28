@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Jil.Common;
-using Sigil.NonGeneric;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Globalization;
+using System.Runtime.InteropServices;
+using System.Text;
+using JilFork.Common;
+using JilFork.DeserializeDynamic;
+using Sigil;
+using Sigil.NonGeneric;
 
-namespace Jil.Deserialize
+namespace JilFork.Deserialize
 {
     class InlineDeserializer<ForType>
     {
@@ -26,16 +26,30 @@ namespace Jil.Deserialize
 
         const string CharBufferName = "char_buffer";
         const string StringBuilderName = "string_builder";
+        const string ReaderName = "reader";
+        const string CommonRawJsonBuilder = "rawJsonStringBuilder";
+
         
         readonly Type OptionsType;
         readonly DateTimeFormat DateFormat;
         readonly SerializationNameFormat SerializationNameFormat;
         readonly bool ReadingFromString;
+        private bool RawJsonFieldDeclaredInTheScope = false;
 
         bool UsingCharBuffer;
         HashSet<Type> RecursiveTypes;
 
         Emit Emit;
+
+        static readonly FieldInfo ThunkReaderValue = typeof(ThunkReader).GetField("Value", BindingFlags.NonPublic | BindingFlags.Instance);
+        static readonly PropertyInfo ThunkReaderIndexOrLen = typeof(ThunkReader).GetProperty("IndexOrLen", BindingFlags.NonPublic | BindingFlags.Instance);
+        static readonly MethodInfo StringSubstring = typeof(String).GetMethod("Substring", new [] {typeof(int),typeof(int)});
+        static readonly MethodInfo BufferedTextReaderWrap = typeof(BufferedTextReaderWrapper).GetMethod("Wrap", BindingFlags.Public | BindingFlags.Static, new [] {typeof(TextReader),typeof(StringBuilder)});
+        static readonly PropertyInfo BufferedTextReaderUnwrap = typeof(BufferedTextReaderWrapper).GetProperty("Unwrap");
+        static readonly MethodInfo BufferedTextReaderGetBufferedString = typeof (BufferedTextReaderWrapper).GetMethod("GetBufferedString");
+        static readonly MethodInfo StringBuilderClear = typeof (StringBuilder).GetMethod("Clear");
+
+
 
         public InlineDeserializer(Type optionsType, DateTimeFormat dateFormat, SerializationNameFormat serializationNameFormat, bool readingFromString)
         {
@@ -76,6 +90,22 @@ namespace Jil.Deserialize
                 involvedTypes.Any(t => t.IsNumberType()) ||         // we use `ref char[]` for these, so they're kind of stringy
                 (involvedTypes.Contains(typeof(DateTime)) && DateFormat == DateTimeFormat.ISO8601) ||
                 (involvedTypes.Contains(typeof(TimeSpan)) && (DateFormat == DateTimeFormat.ISO8601 || DateFormat == DateTimeFormat.MicrosoftStyleMillisecondsSinceUnixEpoch));
+
+            if (ReadingFromString)
+            {
+                var readerLoc = Emit.DeclareLocal(typeof (ThunkReader).MakeByRefType(), ReaderName);
+                
+                Emit.LoadArgument(0);
+                Emit.StoreLocal(readerLoc);                
+            }
+            else
+            {
+                var readerLoc = Emit.DeclareLocal(typeof (TextReader), ReaderName);
+                
+                Emit.LoadArgument(0);
+                Emit.StoreLocal(readerLoc);
+                Emit.DeclareLocal(typeof (StringBuilder), CommonRawJsonBuilder);
+            }
 
             if (needsCharBuffer)
             {
@@ -129,7 +159,7 @@ namespace Jil.Deserialize
         static MethodInfo ThunkReader_Read = typeof(ThunkReader).GetMethod("Read", Type.EmptyTypes);
         void ReadCharFromStream()
         {
-            Emit.LoadArgument(0);                   // (TextReader|ref ThunkReader)
+            Emit.LoadLocal(ReaderName);                   // (TextReader|ref ThunkReader)
             if(ReadingFromString)
             {
                 Emit.Call(ThunkReader_Read);        // int
@@ -182,7 +212,7 @@ namespace Jil.Deserialize
         void ThrowExpectedButEnded(params object[] ps)
         {
             Emit.LoadConstant("Expected: " + string.Join(", ", ps) + "; but the reader ended"); // string
-            Emit.LoadArgument(0);                                                               // string TextReader
+            Emit.LoadLocal(ReaderName);                                                               // string TextReader
             Emit.LoadConstant(true);                                                            // string TextReader bool
             ThrowStringStreamBool();                                                            // DeserializationException
             Emit.Throw();                                                                       // --empty--
@@ -191,7 +221,7 @@ namespace Jil.Deserialize
         void ThrowExpectedButEnded(string s)
         {
             Emit.LoadConstant("Expected character: '" + s + "', but the reader ended"); // string
-            Emit.LoadArgument(0);                                                       // string TextReader
+            Emit.LoadLocal(ReaderName);                                                      // string TextReader
             Emit.LoadConstant(true);                                                    // string TextReader bool
             ThrowStringStreamBool();                                                    // DeserializationException
             Emit.Throw();                                                               // --empty--
@@ -200,7 +230,7 @@ namespace Jil.Deserialize
         void ThrowExpected(char c)
         {
             Emit.LoadConstant("Expected character: '" + c + "'");                   // string
-            Emit.LoadArgument(0);                                                   // string TextReader
+            Emit.LoadLocal(ReaderName);                                                  // string TextReader
             Emit.LoadConstant(false);                                               // string TextReader bool
             ThrowStringStreamBool();                                                // DeserializationException
             Emit.Throw();                                                           // --empty--
@@ -219,7 +249,7 @@ namespace Jil.Deserialize
 
             Emit.Pop();                                                                         // --empty--
             Emit.LoadConstant("Expected: " + string.Join(", ", ps) + "; but the reader ended"); // string
-            Emit.LoadArgument(0);                                                               // string TextReader
+            Emit.LoadLocal(ReaderName);                                                               // string TextReader
             Emit.LoadConstant(true);                                                            // string TextReader bool
             ThrowStringStreamBool();                                                            // DeserializationException
             Emit.Throw();                                                                       // --empty--
@@ -230,7 +260,7 @@ namespace Jil.Deserialize
         void ThrowExpected(params object[] ps)
         {
             Emit.LoadConstant("Expected: " + string.Join(", ", ps));    // string
-            Emit.LoadArgument(0);                                       // string TextReader
+            Emit.LoadLocal(ReaderName);                                       // string TextReader
             Emit.LoadConstant(false);                                   // string TextReader bool
             ThrowStringStreamBool();                                    // DeserializationException
             Emit.Throw();                                               // --empty--
@@ -331,7 +361,7 @@ namespace Jil.Deserialize
 
         void ReadEncodedChar()
         {
-            Emit.LoadArgument(0);                                       // TextReader
+            Emit.LoadLocal(ReaderName);                                       // TextReader
             Emit.Call(Methods.GetReadEncodedChar(ReadingFromString));   // char
         }
 
@@ -367,7 +397,7 @@ namespace Jil.Deserialize
                 delegate
                 {
                     // --empty--
-                    Emit.LoadArgument(0);                   // TextReader
+                    Emit.LoadLocal(ReaderName);                  // TextReader
                     CallReadEncodedString();                // string
                 },
                 delegate
@@ -379,7 +409,7 @@ namespace Jil.Deserialize
 
         void ReadNumber(Type numberType)
         {
-            Emit.LoadArgument(0);               // TextReader
+            Emit.LoadLocal(ReaderName);              // TextReader
 
             if (numberType == typeof(byte))
             {
@@ -543,7 +573,7 @@ namespace Jil.Deserialize
         void ReadGuid()
         {
             ExpectQuote();
-            Emit.LoadArgument(0);                               // TextReader
+            Emit.LoadLocal(ReaderName);                               // TextReader
             Emit.Call(Methods.GetReadGuid(ReadingFromString));  // Guid
             ExpectQuote();                                      // Guid
         }
@@ -568,7 +598,7 @@ namespace Jil.Deserialize
             }
 
             ExpectQuote();                      // --empty--
-            Emit.LoadArgument(0);               // TextReader
+            Emit.LoadLocal(ReaderName);               // TextReader
             if (UseCharArrayOverStringBuilder)
             {
                 LoadCharBufferAddress();
@@ -684,14 +714,14 @@ namespace Jil.Deserialize
 
         void ReadMicrosoftStyleTimeSpan()
         {
-            Emit.LoadArgument(0);                                               // TextReader
+            Emit.LoadLocal(ReaderName);                                               // TextReader
             LoadCharBuffer();                                                   // TextReader char[]
             Emit.Call(Methods.GetReadMicrosoftTimeSpan(ReadingFromString));    // TimeSpan
         }
 
         void ReadISO8601TimeSpan()
         {
-            Emit.LoadArgument(0);                                           // TextReader
+            Emit.LoadLocal(ReaderName);                                           // TextReader
             LoadCharBuffer();                                               // TextReader char[]
             Emit.Call(Methods.GetReadISO8601TimeSpan(ReadingFromString));   // TimeSpan
         }
@@ -720,7 +750,7 @@ namespace Jil.Deserialize
             ExpectChar('t');                                    // --empty--
             ExpectChar('e');                                    // --empty--
             ExpectChar('(');                                    // --empty--
-            Emit.LoadArgument(0);                               // TextReader      
+            Emit.LoadLocal(ReaderName);                               // TextReader      
             Emit.Call(Methods.GetReadMicrosoftDateTimeOffset(ReadingFromString)); // DateTimeOffset
             ExpectChar(')');                                                        // DateTimeOffset
             ExpectChar('\\');                                                       // DateTimeOffset
@@ -740,7 +770,7 @@ namespace Jil.Deserialize
             ExpectChar('e');                                    // --empty--
             ExpectChar('(');                                    // --empty--
             ReadPrimitive(typeof(long));                        // long
-            Emit.LoadArgument(0);                               // long TextReader
+            Emit.LoadLocal(ReaderName);                               // long TextReader
             Emit.Call(Methods.GetDiscardMicrosoftTimeZoneOffset(ReadingFromString)); // long
             ExpectChar(')');                                    // long
             ExpectChar('\\');                                   // long
@@ -785,7 +815,7 @@ namespace Jil.Deserialize
         void ReadISO8601DateTime()
         {
             ExpectQuote();                      // --empty--
-            Emit.LoadArgument(0);               // TextReader
+            Emit.LoadLocal(ReaderName);               // TextReader
             if (UseCharArrayOverStringBuilder)
             {
                 LoadCharBufferAddress();
@@ -822,7 +852,7 @@ namespace Jil.Deserialize
                     Emit.BranchIfTrue(success);             // --empty--
 
                     Emit.LoadConstant("Couldn't parse RFC1123 DateTime");                   // string
-                    Emit.LoadArgument(0);                                                   // string TextReader
+                    Emit.LoadLocal(ReaderName);                                                   // string TextReader
                     Emit.LoadConstant(false);                                               // string TextReader bool
                     ThrowStringStreamBool();
                     Emit.Throw();
@@ -835,7 +865,7 @@ namespace Jil.Deserialize
             }
 
             ExpectQuote();                                              // --empty--
-            Emit.LoadArgument(0);                                       // TextReader
+            Emit.LoadLocal(ReaderName);                                      // TextReader
             Emit.Call(Methods.GetReadRFC1123Date(ReadingFromString));   // DateTime
             ExpectQuote();                                              // DateTime
         }
@@ -943,13 +973,13 @@ namespace Jil.Deserialize
         
         void ConsumeWhiteSpace()
         {
-            Emit.LoadArgument(0);                                       // TextReader
+            Emit.LoadLocal(ReaderName);                                      // TextReader
             Emit.Call(Methods.GetConsumeWhiteSpace(ReadingFromString)); // --empty--
         }
 
         void ReadSkipWhitespace()
         {
-            Emit.LoadArgument(0);                                           // TextReader
+            Emit.LoadLocal(ReaderName);                                           // TextReader
             Emit.Call(Methods.GetReadSkipWhitespace(ReadingFromString));    // int
         }
 
@@ -965,7 +995,7 @@ namespace Jil.Deserialize
             Emit.BranchIfEqual(success);            // --empty--
 
             Emit.LoadConstant("Expected end of stream");    // string
-            Emit.LoadArgument(0);                           // string TextReader
+            Emit.LoadLocal(ReaderName);                          // string TextReader
             Emit.LoadConstant(false);                       // string TextReader bool
             ThrowStringStreamBool();                        // DeserializationException
             Emit.Throw();                                   // --empty--
@@ -977,7 +1007,7 @@ namespace Jil.Deserialize
         static readonly MethodInfo ThunkReader_Peek = typeof(ThunkReader).GetMethod("Peek", BindingFlags.Public | BindingFlags.Instance);
         void RawPeekChar()
         {
-            Emit.LoadArgument(0);                   // TextReader
+            Emit.LoadLocal(ReaderName);                   // TextReader
 
             if (!ReadingFromString)
             {
@@ -995,7 +1025,7 @@ namespace Jil.Deserialize
 
             var specific = Methods.GetReadFlagsEnum(ReadingFromString).MakeGenericMethod(enumType);
 
-            Emit.LoadArgument(0);           // TextReader
+            Emit.LoadLocal(ReaderName);           // TextReader
             LoadStringBuilder();            // TextReader StringBuilder&
             Emit.Call(specific);            // enum
         }
@@ -1016,7 +1046,7 @@ namespace Jil.Deserialize
                     var mtd = Methods.GetThrowNoDefinedValueInEnum(ReadingFromString);
 
                     Emit.LoadConstant(message);     // string
-                    Emit.LoadArgument(0);           // TextReader
+                    Emit.LoadLocal(ReaderName);           // TextReader
                     Emit.Call(mtd);                 // --empty--
 
                     // fall through
@@ -1042,7 +1072,7 @@ namespace Jil.Deserialize
                 }
 
                 ExpectQuote();
-                Emit.LoadArgument(0);   // TextReader
+                Emit.LoadLocal(ReaderName);   // TextReader
                 Emit.Call(getVal);      // emum
 
                 return;
@@ -1057,9 +1087,9 @@ namespace Jil.Deserialize
             var specific = Methods.GetParseEnum(ReadingFromString).MakeGenericMethod(enumType);
 
             ExpectQuote();                  // --empty--
-            Emit.LoadArgument(0);           // TextReader
+            Emit.LoadLocal(ReaderName);          // TextReader
             CallReadEncodedString();        // string
-            Emit.LoadArgument(0);           // TextReader
+            Emit.LoadLocal(ReaderName);           // TextReader
             Emit.Call(specific);            // enum
         }
 
@@ -1286,6 +1316,153 @@ namespace Jil.Deserialize
                 }
             }
         }
+        void ReadUnionListAndSetProperty(IReadOnlyCollection<Utils.Discriminant> listMembers)
+        {
+            if (listMembers.Any(i => i.Member.ReturnType().IsValueType()))
+            {
+                throw new NotImplementedException("Value type for union list is not supported");
+            }
+            if (listMembers.Any(i => !i.Member.ReturnType().IsArray))
+            {
+                throw new NotImplementedException("Only Array supported for union list");
+            }
+
+            var streamNotEmpty = Emit.DefineLabel();
+            var arrayNotEmpty = Emit.DefineLabel();
+            var end = Emit.DefineLabel();
+            
+            ExpectRawCharOrNull(
+                '[',
+                () => { },
+                () =>
+                {
+                    //Emit.LoadNull();
+                    Emit.Pop();
+                    Emit.Branch(end);
+                }
+            );
+
+            // TODO Remove
+
+           
+
+            ConsumeWhiteSpace();
+            RawPeekChar();                                  // objType(*?) int
+            Emit.Duplicate();                               // objType(*?) int int
+            Emit.LoadConstant(-1);                          // objType(*?) int int -1
+
+            Emit.UnsignedBranchIfNotEqual(streamNotEmpty);  // objType(*?) int
+            var expected = new System.String(listMembers.SelectMany(m => m.Subdiscriminant.Chars).Concat(new[] { ']' }).ToArray());
+            ThrowExpectedButEnded(expected);                // objType(*?) 
+
+            Emit.MarkLabel(streamNotEmpty);                 // objType(*?) int
+            Emit.Duplicate();                               // objType(*?) int int
+
+            Emit.LoadConstant(']');                         // objType(*?) int int ']'
+            Emit.UnsignedBranchIfNotEqual(arrayNotEmpty);   // objType(*?) int
+            ReadCharFromStream();                           // objType(*?) int int
+            Emit.Pop();                                     // objType(*?) int 
+            Emit.Pop();                                     // objType(*?)
+            Emit.Pop();                                     // --empty--
+            Emit.Branch(end);
+            Emit.MarkLabel(arrayNotEmpty);
+
+            var memebersWithLocals =
+                listMembers.Select(m =>
+                {
+                    var listType = m.Member.ReturnType();
+                    var elementType = listType.GetElementType();// listType should be array
+                    listType = typeof(List<>).MakeGenericType(elementType);
+                   
+                    return
+                        new
+                        {
+                            Memeber = m,
+                            Local = Emit.DeclareLocal(listType),
+                            ListType  = listType,
+                            ElementType = elementType
+                        };
+                }).ToList();
+            foreach (var memberWithLocal in memebersWithLocals)
+            {
+                var member = memberWithLocal.Memeber;
+                var loc = memberWithLocal.Local;
+                Action loadList = () => Emit.LoadLocal(loc);
+                var addMtd = memberWithLocal.ListType.GetMethod("Add");
+ 
+                foreach (var memberChar in member.Subdiscriminant.Chars)
+                {
+                    var doneSkipChar = Emit.DefineLabel();
+
+                    var nextChar = Emit.DefineLabel();
+                    var done = Emit.DefineLabel();
+                   
+                    Emit.Duplicate(); // objType(*?) int int
+                    Emit.LoadConstant((int)memberChar); // objType(*?) int int int
+                    Emit.UnsignedBranchIfNotEqual(nextChar); //objType(*?)  int
+                    Emit.Pop();// objType(*?) 
+                    
+                    var listCons = memberWithLocal.ListType.GetPublicOrPrivateConstructor();
+                    if (listCons == null)
+                        throw new ConstructionException("Expected a parameterless constructor for " + memberWithLocal.ListType);
+
+                    Emit.NewObject(listCons); // objType(*?)  listType
+                    Emit.StoreLocal(loc); // objType(*?) 
+
+                    ConsumeWhiteSpace(); // objType(*?) 
+                    loadList(); // objType(*?) listType
+                    RawPeekChar(); // objType(*?) listType int 
+                    Emit.LoadConstant(']'); // objType(*?)  listType int ']'
+                    Emit.BranchIfEqual(done); // listType(*?)
+                    Build(member.Member, memberWithLocal.ElementType); //  objType(*?) listType(*?) elementType
+                    Emit.CallVirtual(addMtd); // objType(*?) 
+
+                    var startLoop = Emit.DefineLabel();
+                    var nextItem = Emit.DefineLabel();
+
+                    Emit.MarkLabel(startLoop); // objType(*?) 
+                    loadList(); //objType(*?)  listType(*?)
+                    ReadSkipWhitespace(); // objType(*?) listType(*?) int
+                    ThrowIfEmptyAndWasExpecting(",", "]"); // objType(*?) listType(*?) int
+
+                    Emit.Duplicate(); // objType(*?) listType(*?) int int
+                    Emit.LoadConstant(','); // objType(*?) listType(*?) int int ','
+                    Emit.BranchIfEqual(nextItem); // objType(*?) listType(*?) int
+                    Emit.LoadConstant(']'); // objType(*?) listType(*?) int ']'
+                    Emit.BranchIfEqual(doneSkipChar); // objType(*?) listType(*?)
+
+                    // didn't get what we expected
+                    ThrowExpected(",", "]");
+
+                    Emit.MarkLabel(nextItem); // objType(*?) listType(*?) int
+                    Emit.Pop(); // objType(*?) listType(*?)
+                    ConsumeWhiteSpace(); //objType(*?)  listType(*?)
+                    Build(member.Member, memberWithLocal.ElementType); //objType(*?)  listType(*?) elementType
+                    Emit.CallVirtual(addMtd); // objType(*?) 
+                    Emit.Branch(startLoop); // objType(*?) 
+
+                    Emit.MarkLabel(done); // objType(*?) listType(*?)
+                    ReadCharFromStream(); // objType(*?) listType(*?) int
+                    Emit.Pop(); // objType(*?) listType(*?)
+
+                    Emit.MarkLabel(doneSkipChar); // objType(*?) listType(*?)
+
+                    var toArray = memberWithLocal.ListType.GetMethod("ToArray");
+                    Emit.Call(toArray); // objType(*?) elementType[]
+                    
+                    SetProperty((PropertyInfo)member.Member);// -- empty
+                    Emit.Branch(end);                    
+
+                    Emit.MarkLabel(nextChar);
+                }
+            }
+            foreach (var m in memebersWithLocals)
+            {
+                m.Local.Dispose();
+            }
+            ThrowExpected(expected);                        // --empty--
+            Emit.MarkLabel(end);
+        }
 
         void ReadDictionary(MemberInfo dictionaryMember, Type dictType)
         {
@@ -1429,7 +1606,7 @@ namespace Jil.Deserialize
 
         void SkipObjectMember()
         {
-            Emit.LoadArgument(0);                           // TextReader
+            Emit.LoadLocal(ReaderName);                           // TextReader
             Emit.Call(Methods.GetSkip(ReadingFromString));  // --empty--
         }
 
@@ -1466,13 +1643,96 @@ namespace Jil.Deserialize
                 return;
             }
 
+            var rawPropertyName =
+                ExtensionMethods.GetCustomAttribute<JilClassDirectiveAttribute>(objType)
+                    ?.RawPropertyName;
+            PropertyInfo rawProperty = null;
+            Local thunkReaderStartIndex = null;
+            
+            if (rawPropertyName != null)
+            {
+                rawProperty = objType.GetProperty(rawPropertyName);
+            }
+
+            if (rawProperty != null)
+            {
+                if (RawJsonFieldDeclaredInTheScope)
+                {
+                    throw new Exception("Nested raw properties are not supported");// In order to use common StringBuilder instance
+                }
+                RawJsonFieldDeclaredInTheScope = true;
+
+                if (ReadingFromString)
+                {
+                    thunkReaderStartIndex = Emit.DeclareLocal(typeof(int));
+                    Emit.LoadLocal(ReaderName);
+                    Emit.Call(ThunkReaderIndexOrLen.GetMethod);
+                    Emit.StoreLocal(thunkReaderStartIndex);
+                }
+                else
+                {
+                    var rawBuilderAlreadyCreated = Emit.DefineLabel();
+                    var rawBuilderInitialized = Emit.DefineLabel();
+                    Emit.LoadLocal(ReaderName);// TextReader
+
+                    Emit.LoadLocal(CommonRawJsonBuilder);// TextReader StringBuilder
+                    Emit.LoadNull();// TextReader StringBuilder null
+                    Emit.UnsignedBranchIfNotEqual(rawBuilderAlreadyCreated);
+                    Emit.NewObject<StringBuilder>();// TextReader StringBuilder
+                    Emit.Duplicate();// TextReader StringBuilder StringBuilder 
+                    Emit.StoreLocal(CommonRawJsonBuilder);// TextReader StringBuilder 
+                    Emit.Branch(rawBuilderInitialized);
+                    Emit.MarkLabel(rawBuilderAlreadyCreated);
+                    Emit.LoadLocal(CommonRawJsonBuilder);// TextReader StringBuilder 
+                    //Emit.Duplicate();// TextReader StringBuilder StringBuilder 
+                    Emit.Call(StringBuilderClear);// TextReader StringBuilder 
+                    Emit.MarkLabel(rawBuilderInitialized);
+                    Emit.Call(BufferedTextReaderWrap);// BufferedTextReader
+                    Emit.StoreLocal(ReaderName);
+                }
+            }
+
             if (UseNameAutomata)
             {
                 ReadObjectAutomata(objType);
-                return;
             }
-            
-            ReadObjectDictionaryLookup(objType);
+            else
+            {
+                ReadObjectDictionaryLookup(objType);
+            }
+            if (rawProperty != null)
+            {
+                RawJsonFieldDeclaredInTheScope = false;
+                if (ReadingFromString)
+                {
+                    Emit.Duplicate();//objectType objectType 
+                    Emit.LoadLocal(ReaderName);//objectType objectType ThunkReader
+                    Emit.LoadField(ThunkReaderValue);// objectType objectType string
+                    Emit.LoadLocal(thunkReaderStartIndex);//objType objType string int 
+                    Emit.LoadConstant(1);//objType objType string int int
+                    Emit.Add();//objType objType string int 
+                    Emit.LoadLocal(ReaderName);//objType objType string int ThunkReader
+                    Emit.Call(ThunkReaderIndexOrLen.GetMethod);//objType objType string int int 
+                    Emit.LoadLocal(thunkReaderStartIndex);//objType objType string int int int
+                    Emit.Subtract();//objType objType string int int
+
+                    Emit.Call(StringSubstring);//objType objType string
+
+                    SetProperty(rawProperty);//objType
+                    thunkReaderStartIndex.Dispose();
+                }
+                else
+                {
+                    Emit.Duplicate();//objectType objectType 
+                    Emit.LoadLocal(ReaderName); //objectType objectType Reader
+                    Emit.CastClass<BufferedTextReaderWrapper>();//objectType objectType BufferedReader   
+                    Emit.Duplicate();//objectType objectType BufferedReader BufferedReader      
+                    Emit.Call(BufferedTextReaderUnwrap.GetMethod);//objectType objectType BufferedReader Reader
+                    Emit.StoreLocal(ReaderName);//objectType objectType BufferedReader
+                    Emit.Call(BufferedTextReaderGetBufferedString);// objectType objectType string
+                    SetProperty(rawProperty);//objType
+                }
+            }
         }
 
         void SkipAllMembers(Sigil.Label done, Sigil.Label doneSkipChar)
@@ -1487,7 +1747,7 @@ namespace Jil.Deserialize
             Emit.LoadConstant('}');             // objType char '}'
             Emit.BranchIfEqual(done);           // objType
 
-            Emit.LoadArgument(0);                   // objType TextReader
+            Emit.LoadLocal(ReaderName);                   // objType TextReader
             Emit.Call(skipEncodedString);           // objType
             ReadSkipWhitespace();                   // objType
             CheckChar(':');                         // objType
@@ -1506,7 +1766,7 @@ namespace Jil.Deserialize
             ExpectChar(',');                    // objType
 
             ConsumeWhiteSpace();                    // objType
-            Emit.LoadArgument(0);                   // objType TextReader
+            Emit.LoadLocal(ReaderName);                   // objType TextReader
             Emit.Call(skipEncodedString);           // objType
             ReadSkipWhitespace();                   // objType
             CheckChar(':');                         // objType
@@ -1616,7 +1876,7 @@ namespace Jil.Deserialize
                 ReadSkipWhitespace();       // objType(*?)
 
                 CheckQuote();               // objType(*?)
-                Emit.LoadArgument(0);       // objType(*?) TextReader
+                Emit.LoadLocal(ReaderName);      // objType(*?) TextReader
                 Emit.Call(findSetterIdx);   // objType(*?) int
 
                 ReadSkipWhitespace();       // objType(*?) int
@@ -1689,7 +1949,7 @@ namespace Jil.Deserialize
                 ReadSkipWhitespace();
 
                 CheckQuote();
-                Emit.LoadArgument(0);               // TextReader
+                Emit.LoadLocal(ReaderName);               // TextReader
                 Emit.Call(findSetterIdx);           // int
 
                 ReadSkipWhitespace();               // objType(*?) int
@@ -1718,6 +1978,7 @@ namespace Jil.Deserialize
             var memberType = member.ReturnType();
 
             var memberAttr = member.GetCustomAttribute<JilDirectiveAttribute>();
+
             if (memberType.IsEnum() && memberAttr != null && memberAttr.TreatEnumerationAs != null)
             {
                 var underlyingEnumType = Enum.GetUnderlyingType(memberType);
@@ -1739,24 +2000,25 @@ namespace Jil.Deserialize
                 SetProperty((PropertyInfo)member);  // --empty--
             }
         }
-        
+
+
         static readonly MethodInfo Type_GetTypeFromHandle = typeof(Type).GetMethod("GetTypeFromHandle", BindingFlags.Public | BindingFlags.Static);
         void ReadAndSetDiscriminantUnion(string memberName, MemberInfo[] union)
         {
-            Dictionary<char, MemberInfo> discriminants;
+            IReadOnlyCollection<Utils.Discriminant> discriminants;
             MemberInfo unionTypeIndicator;
-            Dictionary<UnionCharsets, MemberInfo> charsets;
+            //Dictionary<UnionCharsets, MemberInfo> charsets;
             bool allowsNull;
 
             string errorMessage;
-            if(!Utils.CheckUnionLegality(DateFormat, memberName, union, out discriminants, out unionTypeIndicator, out charsets, out allowsNull, out errorMessage))
+            if (!Utils.CheckUnionLegality(DateFormat, memberName, union, out discriminants, out unionTypeIndicator, out allowsNull, out errorMessage))
             {
                 throw new ConstructionException(errorMessage);
             }
 
-            var refMembers = discriminants.Where(kv => !kv.Value.ReturnType().IsValueType()).Select(kv => kv.Value).ToList();
-            var nullableMembers = discriminants.Where(kv => kv.Value.ReturnType().IsNullableType()).Select(kv => kv.Value).ToList();
-            var expected = discriminants.Keys.ToArray();
+            var refMembers = discriminants.Where(kv => !kv.Member.ReturnType().IsValueType()).Select(kv => kv.Member).ToList();
+            var nullableMembers = discriminants.Where(kv => kv.Member.ReturnType().IsNullableType()).Select(kv => kv.Member).ToList();
+            var expected = discriminants.SelectMany(i => i.Chars).ToArray();
 
             var streamNotEmpty = Emit.DefineLabel();
             var end = Emit.DefineLabel();
@@ -1778,12 +2040,12 @@ namespace Jil.Deserialize
             var canUseFastUnionLookup = false;
 #endif
 
-            if (UseFastUnionLookup && canUseFastUnionLookup)
+            if (UseFastUnionLookup && canUseFastUnionLookup && discriminants.All(i => i.Subdiscriminant == null))
             {
                 var allCharsets = UnionCharsets.None;
-                foreach (var kv in charsets)
+                foreach (var charSet in discriminants.SelectMany(d => d.CharSet))
                 {
-                    allCharsets |= kv.Key;
+                    allCharsets |= charSet;
                 }
 
                 var config = UnionConfigLookup.Get(allCharsets, allowsNull);
@@ -1798,13 +2060,11 @@ namespace Jil.Deserialize
                 var labels = 
                     charsetsInOrder
                         .Select(
-                            c => 
+                            c =>
                             {
-                                MemberInfo member;
+                                var members = discriminants.Where(m => m.CharSet.Contains(c));
 
-                                if (!charsets.TryGetValue(c, out member)) member = null;
-
-                                return Tuple.Create(Emit.DefineLabel(), member, c);
+                                return Tuple.Create(Emit.DefineLabel(), members, c);
                             }
                         )
                         .ToArray();
@@ -1833,7 +2093,7 @@ namespace Jil.Deserialize
                 foreach (var t in labels)
                 {
                     var label = t.Item1;
-                    var member = t.Item2;
+                    var members = t.Item2;
                     var charset = t.Item3;
 
                     Emit.MarkLabel(label);                  // objType(*?)
@@ -1850,28 +2110,31 @@ namespace Jil.Deserialize
                     }
                     else
                     {
+                        
+                        var member = members.Single().Member;
                         // set the indicator, __if__ one has actually be registered
                         //   we don't want to do any work if they don't care to
                         if (unionTypeIndicator != null)
                         {
-                            Emit.Duplicate();                           // objType(*?) objType(*?)
-                            Emit.LoadConstant(member.ReturnType());     // objType(*?) objType(*?) RuntimeTypeHandle
-                            Emit.Call(Type_GetTypeFromHandle);          // objType(*?) objType(*?) Type
+                            Emit.Duplicate(); // objType(*?) objType(*?)
+                            Emit.LoadConstant(member.ReturnType()); // objType(*?) objType(*?) RuntimeTypeHandle
+                            Emit.Call(Type_GetTypeFromHandle); // objType(*?) objType(*?) Type
 
                             if (unionTypeIndicator is FieldInfo)
                             {
                                 var asField = (FieldInfo)unionTypeIndicator;
-                                Emit.StoreField(asField);               // objType(*?)
+                                Emit.StoreField(asField); // objType(*?)
                             }
                             else
                             {
                                 var asProp = (PropertyInfo)unionTypeIndicator;
-                                SetProperty(asProp);                    // objType(*?)
+                                SetProperty(asProp); // objType(*?)
                             }
                         }
 
-                        ReadAndSetMember(member);                   // --empty--
-                        Emit.Branch(end);                           // --empty--
+                        ReadAndSetMember(member); // --empty--
+                        Emit.Branch(end);
+                        
                     }
                 }
 
@@ -1899,42 +2162,81 @@ namespace Jil.Deserialize
                     Emit.MarkLabel(notNull);                    // objType(*?) int
                 }
 
-                foreach (var charToMember in discriminants)
+                foreach (var charToMember in discriminants.Where(i=> i.Subdiscriminant==null))
                 {
-                    var c = charToMember.Key;
-                    var member = charToMember.Value;
-                    var nextChar = Emit.DefineLabel();
-
-                    Emit.Duplicate();                           // objType(*?) int int
-                    Emit.LoadConstant((int)c);                  // objType(*?) int int int
-                    Emit.UnsignedBranchIfNotEqual(nextChar);    // objType(*?) int
-
-                    Emit.Pop();                                 // objType(*?)
-
-                    // set the indicator, __if__ one has actually be registered
-                    //   we don't want to do any work if they don't care to
-                    if (unionTypeIndicator != null)
+                    foreach (var c in charToMember.Chars)
                     {
-                        Emit.Duplicate();                           // objType(*?) objType(*?)
-                        Emit.LoadConstant(member.ReturnType());     // objType(*?) objType(*?) RuntimeTypeHandle
-                        Emit.Call(Type_GetTypeFromHandle);          // objType(*?) objType(*?) Type
+                        var member = charToMember.Member;
+                        var nextChar = Emit.DefineLabel();
 
-                        if (unionTypeIndicator is FieldInfo)
+                        Emit.Duplicate(); // objType(*?) int int
+                        Emit.LoadConstant((int) c); // objType(*?) int int int
+                        Emit.UnsignedBranchIfNotEqual(nextChar); // objType(*?) int
+
+                        Emit.Pop(); // objType(*?)
+
+                        // set the indicator, __if__ one has actually be registered
+                        //   we don't want to do any work if they don't care to
+                        if (unionTypeIndicator != null)
                         {
-                            var asField = (FieldInfo)unionTypeIndicator;
-                            Emit.StoreField(asField);               // objType(*?)
+                            Emit.Duplicate(); // objType(*?) objType(*?)
+                            Emit.LoadConstant(member.ReturnType()); // objType(*?) objType(*?) RuntimeTypeHandle
+                            Emit.Call(Type_GetTypeFromHandle); // objType(*?) objType(*?) Type
+
+                            if (unionTypeIndicator is FieldInfo)
+                            {
+                                var asField = (FieldInfo) unionTypeIndicator;
+                                Emit.StoreField(asField); // objType(*?)
+                            }
+                            else
+                            {
+                                var asProp = (PropertyInfo) unionTypeIndicator;
+                                SetProperty(asProp); // objType(*?)
+                            }
                         }
-                        else
-                        {
-                            var asProp = (PropertyInfo)unionTypeIndicator;
-                            SetProperty(asProp);                    // objType(*?)
-                        }
+
+                        ReadAndSetMember(member); // --empty--
+                        Emit.Branch(end); // --empty--
+
+                        Emit.MarkLabel(nextChar); // objType(*?) int
                     }
+                }
 
-                    ReadAndSetMember(member);                   // --empty--
-                    Emit.Branch(end);                           // --empty--
+                var discriminantsWithSubDiscriminants = discriminants
+                    .Where(i => i.Subdiscriminant != null)
+                    .ToList();
 
-                    Emit.MarkLabel(nextChar);                   // objType(*?) int
+                if (!(discriminantsWithSubDiscriminants
+                        .Select(i => i.CharSet.Aggregate(UnionCharsets.None, (acc, cset) => acc | cset))
+                        .Distinct().Count() <= 1))
+                {
+                    throw new NotImplementedException("Different char sets for list union not supported");
+                }
+
+
+                if (discriminantsWithSubDiscriminants.Any())
+                {
+                    foreach (var c in discriminantsWithSubDiscriminants.First().Chars)
+                    {
+                        var nextChar = Emit.DefineLabel();
+
+                        Emit.Duplicate(); // objType(*?) int int
+                        Emit.LoadConstant((int) c); // objType(*?) int int int
+                        Emit.UnsignedBranchIfNotEqual(nextChar); // objType(*?) int
+
+                        Emit.Pop(); // objType(*?)
+
+                        // set the indicator, __if__ one has actually be registered
+                        //   we don't want to do any work if they don't care to
+                        if (unionTypeIndicator != null)
+                        {
+                            throw new NotImplementedException("Union type is not supported for union list");
+                        }
+                        ReadUnionListAndSetProperty(discriminantsWithSubDiscriminants);
+                        Emit.Branch(end); // --empty--
+
+                        Emit.MarkLabel(nextChar); // objType(*?) int
+                    }
                 }
 
                 ThrowExpected(expected);                        // --empty--
@@ -2404,7 +2706,7 @@ namespace Jil.Deserialize
             Emit.BranchIfEqual(doneNotNullPopSkipChar); // --empty--
 
             CheckQuote();                               // --empty--
-            Emit.LoadArgument(0);                       // TextReader
+            Emit.LoadLocal(ReaderName);                       // TextReader
             Emit.Call(findConstructorParameterIndex);   // int
 
             ReadSkipWhitespace();       // int
@@ -2450,7 +2752,7 @@ namespace Jil.Deserialize
             ReadSkipWhitespace();                       // --empty--
 
             CheckQuote();                               // --empty--
-            Emit.LoadArgument(0);                       // TextReader
+            Emit.LoadLocal(ReaderName);                       // TextReader
             Emit.Call(findConstructorParameterIndex);   // int
 
             ReadSkipWhitespace();               // int
@@ -2490,12 +2792,12 @@ namespace Jil.Deserialize
         }
 
         static ConstructorInfo OptionsCons = typeof(Options).GetConstructor(new[] { typeof(bool), typeof(bool), typeof(bool), typeof(DateTimeFormat), typeof(bool), typeof(UnspecifiedDateTimeKindBehavior), typeof(SerializationNameFormat) });
-        static ConstructorInfo ObjectBuilderCons = typeof(Jil.DeserializeDynamic.ObjectBuilder).GetConstructor(new[] { typeof(Options) });
+        static ConstructorInfo ObjectBuilderCons = typeof(ObjectBuilder).GetConstructor(new[] { typeof(Options) });
         void ReadDynamic()
         {
-            using (var dyn = Emit.DeclareLocal<Jil.DeserializeDynamic.ObjectBuilder>())
+            using (var dyn = Emit.DeclareLocal<ObjectBuilder>())
             {
-                Emit.LoadArgument(0);                                                       // TextReader
+                Emit.LoadLocal(ReaderName);                                                       // TextReader
                 Emit.LoadConstant(false);                                                   // TextReader bool
                 Emit.LoadConstant(false);                                                   // TextReader bool bool
                 Emit.LoadConstant(false);                                                   // TextReader bool bool bool
@@ -2508,11 +2810,11 @@ namespace Jil.Deserialize
                 Emit.StoreLocal(dyn);                                                       // TextReader
                 Emit.LoadLocal(dyn);                                                        // TextReader ObjectBuilder
 
-                var deserializeDyn = Jil.DeserializeDynamic.DynamicDeserializer.GetDeserializeMember(ReadingFromString);
+                var deserializeDyn = DynamicDeserializer.GetDeserializeMember(ReadingFromString);
 
                 Emit.Call(deserializeDyn);                                                  // --empty--
                 Emit.LoadLocal(dyn);                                                        // ObjectBuilder
-                Emit.LoadField(Jil.DeserializeDynamic.ObjectBuilder._BeingBuilt);           // JsonObject
+                Emit.LoadField(ObjectBuilder._BeingBuilt);           // JsonObject
             }
         }
 
@@ -2611,7 +2913,7 @@ namespace Jil.Deserialize
                 var funcInvoke = funcType.GetMethod("Invoke");
 
                 LoadRecursiveTypeDelegate(forType); // Func<TextReader, int, memberType>
-                Emit.LoadArgument(0);               // Func<TextReader, int, memberType> TextReader
+                Emit.LoadLocal(ReaderName);               // Func<TextReader, int, memberType> TextReader
                 Emit.LoadArgument(1);               // Func<TextReader, int, memberType> TextReader int
                 Emit.LoadConstant(1);               // Func<TextReader, int, memberType> TextReader int int
                 Emit.Add();                         // Func<TextReader, int, memberType> TextReader int

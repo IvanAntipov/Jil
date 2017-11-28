@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Jil.Common
+namespace JilFork.Common
 {
     [Flags]
     internal enum UnionCharsets : byte

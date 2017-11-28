@@ -1,15 +1,13 @@
-﻿using Jil.Common;
-using Sigil;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
+using JilFork.Common;
+using Sigil;
 
-namespace Jil.Deserialize
+namespace JilFork.Deserialize
 {
     abstract class UnionLookupConfigBase
     {

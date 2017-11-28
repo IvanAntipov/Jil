@@ -1,11 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Jil.Common;
 using System.Reflection;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using Jil.Deserialize;
+using JilFork;
+using JilFork.Common;
+using JilFork.Deserialize;
 
 namespace JilTests
 {
@@ -204,65 +205,65 @@ namespace JilTests
         [TestMethod]
         public void ConstantProperties()
         {
-            Assert.AreEqual("\" \"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("C1"), false));
-            Assert.AreEqual("\"\\\"\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("C2"), false));
+            Assert.AreEqual("\" \"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("C1"), false));
+            Assert.AreEqual("\"\\\"\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("C2"), false));
 
-            Assert.AreEqual("null", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("STR1"), false));
-            Assert.AreEqual("\"hello world\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("STR2"), false));
-            Assert.AreEqual(@"""\r\n\f""", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("STR3"), false));
+            Assert.AreEqual("null", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("STR1"), false));
+            Assert.AreEqual("\"hello world\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("STR2"), false));
+            Assert.AreEqual(@"""\r\n\f""", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("STR3"), false));
 
-            Assert.AreEqual("true", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("BOOL1"), false));
-            Assert.AreEqual("false", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("BOOL2"), false));
+            Assert.AreEqual("true", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("BOOL1"), false));
+            Assert.AreEqual("false", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("BOOL2"), false));
 
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("B1"), false));
-            Assert.AreEqual("127", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("B2"), false));
-            Assert.AreEqual("255", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("B3"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("B1"), false));
+            Assert.AreEqual("127", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("B2"), false));
+            Assert.AreEqual("255", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("B3"), false));
 
-            Assert.AreEqual("-128", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SB1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SB2"), false));
-            Assert.AreEqual("127", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SB3"), false));
+            Assert.AreEqual("-128", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SB1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SB2"), false));
+            Assert.AreEqual("127", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SB3"), false));
 
-            Assert.AreEqual("-32768", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("S1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("S2"), false));
-            Assert.AreEqual("32767", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("S3"), false));
+            Assert.AreEqual("-32768", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("S1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("S2"), false));
+            Assert.AreEqual("32767", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("S3"), false));
 
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("US1"), false));
-            Assert.AreEqual("32767", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("US2"), false));
-            Assert.AreEqual("65535", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("US3"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("US1"), false));
+            Assert.AreEqual("32767", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("US2"), false));
+            Assert.AreEqual("65535", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("US3"), false));
 
-            Assert.AreEqual("-2147483648", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("I1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("I2"), false));
-            Assert.AreEqual("2147483647", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("I3"), false));
+            Assert.AreEqual("-2147483648", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("I1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("I2"), false));
+            Assert.AreEqual("2147483647", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("I3"), false));
 
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UI1"), false));
-            Assert.AreEqual("2147483647", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UI2"), false));
-            Assert.AreEqual("4294967295", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UI3"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UI1"), false));
+            Assert.AreEqual("2147483647", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UI2"), false));
+            Assert.AreEqual("4294967295", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UI3"), false));
 
-            Assert.AreEqual("-9223372036854775808", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("L1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("L2"), false));
-            Assert.AreEqual("9223372036854775807", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("L3"), false));
+            Assert.AreEqual("-9223372036854775808", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("L1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("L2"), false));
+            Assert.AreEqual("9223372036854775807", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("L3"), false));
 
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UL1"), false));
-            Assert.AreEqual("9223372036854775807", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UL2"), false));
-            Assert.AreEqual("18446744073709551615", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UL3"), false));
-            Assert.AreEqual("18446744073709551614", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UL4"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UL1"), false));
+            Assert.AreEqual("9223372036854775807", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UL2"), false));
+            Assert.AreEqual("18446744073709551615", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UL3"), false));
+            Assert.AreEqual("18446744073709551614", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UL4"), false));
 
-            Assert.AreEqual("-1234.56", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("F1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("F2"), false));
-            Assert.AreEqual("1234.56", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("F3"), false));
+            Assert.AreEqual("-1234.56", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("F1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("F2"), false));
+            Assert.AreEqual("1234.56", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("F3"), false));
 
-            Assert.AreEqual("-1234.56", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("D1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("D2"), false));
-            Assert.AreEqual("1234.56", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("D3"), false));
+            Assert.AreEqual("-1234.56", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("D1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("D2"), false));
+            Assert.AreEqual("1234.56", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("D3"), false));
 
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("BE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SBE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("USE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("IE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UIE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("LE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("ULE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("BE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SBE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("SE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("USE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("IE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("UIE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("LE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantProperties).GetProperty("ULE"), false));
         }
 #endif
 
@@ -371,64 +372,64 @@ namespace JilTests
         [TestMethod]
         public void ConstantFields()
         {
-            Assert.AreEqual("\" \"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("C1"), false));
-            Assert.AreEqual("\"\\\"\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("C2"), false));
+            Assert.AreEqual("\" \"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("C1"), false));
+            Assert.AreEqual("\"\\\"\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("C2"), false));
 
-            Assert.AreEqual("null", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("STR1"), false));
-            Assert.AreEqual("\"hello world\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("STR2"), false));
-            Assert.AreEqual(@"""\r\n\f""", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("STR3"), false));
+            Assert.AreEqual("null", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("STR1"), false));
+            Assert.AreEqual("\"hello world\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("STR2"), false));
+            Assert.AreEqual(@"""\r\n\f""", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("STR3"), false));
 
-            Assert.AreEqual("true", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("BOOL1"), false));
-            Assert.AreEqual("false", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("BOOL2"), false));
+            Assert.AreEqual("true", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("BOOL1"), false));
+            Assert.AreEqual("false", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("BOOL2"), false));
 
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("B1"), false));
-            Assert.AreEqual("127", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("B2"), false));
-            Assert.AreEqual("255", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("B3"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("B1"), false));
+            Assert.AreEqual("127", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("B2"), false));
+            Assert.AreEqual("255", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("B3"), false));
 
-            Assert.AreEqual("-128", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SB1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SB2"), false));
-            Assert.AreEqual("127", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SB3"), false));
+            Assert.AreEqual("-128", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SB1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SB2"), false));
+            Assert.AreEqual("127", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SB3"), false));
 
-            Assert.AreEqual("-32768", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("S1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("S2"), false));
-            Assert.AreEqual("32767", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("S3"), false));
+            Assert.AreEqual("-32768", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("S1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("S2"), false));
+            Assert.AreEqual("32767", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("S3"), false));
 
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("US1"), false));
-            Assert.AreEqual("32767", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("US2"), false));
-            Assert.AreEqual("65535", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("US3"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("US1"), false));
+            Assert.AreEqual("32767", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("US2"), false));
+            Assert.AreEqual("65535", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("US3"), false));
 
-            Assert.AreEqual("-2147483648", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("I1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("I2"), false));
-            Assert.AreEqual("2147483647", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("I3"), false));
+            Assert.AreEqual("-2147483648", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("I1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("I2"), false));
+            Assert.AreEqual("2147483647", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("I3"), false));
 
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UI1"), false));
-            Assert.AreEqual("2147483647", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UI2"), false));
-            Assert.AreEqual("4294967295", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UI3"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UI1"), false));
+            Assert.AreEqual("2147483647", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UI2"), false));
+            Assert.AreEqual("4294967295", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UI3"), false));
 
-            Assert.AreEqual("-9223372036854775808", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("L1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("L2"), false));
-            Assert.AreEqual("9223372036854775807", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("L3"), false));
+            Assert.AreEqual("-9223372036854775808", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("L1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("L2"), false));
+            Assert.AreEqual("9223372036854775807", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("L3"), false));
 
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UL1"), false));
-            Assert.AreEqual("9223372036854775807", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UL2"), false));
-            Assert.AreEqual("18446744073709551615", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UL3"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UL1"), false));
+            Assert.AreEqual("9223372036854775807", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UL2"), false));
+            Assert.AreEqual("18446744073709551615", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UL3"), false));
 
-            Assert.AreEqual("-1234.56", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("F1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("F2"), false));
-            Assert.AreEqual("1234.56", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("F3"), false));
+            Assert.AreEqual("-1234.56", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("F1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("F2"), false));
+            Assert.AreEqual("1234.56", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("F3"), false));
 
-            Assert.AreEqual("-1234.56", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("D1"), false));
-            Assert.AreEqual("0", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("D2"), false));
-            Assert.AreEqual("1234.56", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("D3"), false));
+            Assert.AreEqual("-1234.56", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("D1"), false));
+            Assert.AreEqual("0", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("D2"), false));
+            Assert.AreEqual("1234.56", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("D3"), false));
 
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("BE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SBE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("USE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("IE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UIE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("LE"), false));
-            Assert.AreEqual("\"A\"", Jil.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("ULE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("BE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SBE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("SE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("USE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("IE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("UIE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("LE"), false));
+            Assert.AreEqual("\"A\"", JilFork.Common.ExtensionMethods.GetConstantJSONStringEquivalent(typeof(_ConstantFields).GetField("ULE"), false));
         }
 
 #if !NETCORE && !DEBUG
@@ -692,7 +693,7 @@ namespace JilTests
         {
             public _Issue119A Recurse { get; set; }
             
-            [Jil.JilDirective(Ignore = true)]
+            [JilDirective(Ignore = true)]
             public _Issue119B IgnoredRecurse { get; set; }
         }
 
@@ -712,42 +713,42 @@ namespace JilTests
             //   we want B not to break if Jil#1 is a higher version than Jil#2; unless Jil#1 is a major version upgrade
 
             // DeserializationException
-            Assert.IsNotNull(typeof(Jil.DeserializationException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(Exception), typeof(TextReader), typeof(bool) } ));
-            Assert.IsNotNull(typeof(Jil.DeserializationException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(string), typeof(TextReader), typeof(bool) } ));
-            Assert.IsNotNull(typeof(Jil.DeserializationException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(string), typeof(TextReader), typeof(Exception), typeof(bool) } ));
-            Assert.IsNotNull(typeof(Jil.DeserializationException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(string), typeof(Exception), typeof(bool) } ));
+            Assert.IsNotNull(typeof(DeserializationException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(Exception), typeof(TextReader), typeof(bool) } ));
+            Assert.IsNotNull(typeof(DeserializationException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(string), typeof(TextReader), typeof(bool) } ));
+            Assert.IsNotNull(typeof(DeserializationException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(string), typeof(TextReader), typeof(Exception), typeof(bool) } ));
+            Assert.IsNotNull(typeof(DeserializationException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, new[] { typeof(string), typeof(Exception), typeof(bool) } ));
 
             // InfiniteRecursionException
-            Assert.IsNotNull(typeof(Jil.InfiniteRecursionException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, Type.EmptyTypes));
+            Assert.IsNotNull(typeof(InfiniteRecursionException).GetConstructor(BindingFlags.NonPublic | BindingFlags.Instance, Type.EmptyTypes));
 
             // JSON
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("SetDefaultOptions", BindingFlags.Public | BindingFlags.Static, new [] { typeof(Jil.Options) } ));
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("GetDefaultOptions", BindingFlags.Public | BindingFlags.Static, Type.EmptyTypes ));
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("SerializeDynamic", BindingFlags.Public | BindingFlags.Static, new[] { typeof(object), typeof(TextWriter), typeof(Jil.Options) } ));
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("SerializeDynamic", BindingFlags.Public | BindingFlags.Static, new[] { typeof(object), typeof(Jil.Options) } ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("SetDefaultOptions", BindingFlags.Public | BindingFlags.Static, new [] { typeof(Options) } ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("GetDefaultOptions", BindingFlags.Public | BindingFlags.Static, Type.EmptyTypes ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("SerializeDynamic", BindingFlags.Public | BindingFlags.Static, new[] { typeof(object), typeof(TextWriter), typeof(Options) } ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("SerializeDynamic", BindingFlags.Public | BindingFlags.Static, new[] { typeof(object), typeof(Options) } ));
             Assert.IsNotNull(
-                typeof(Jil.JSON).GetMethods(BindingFlags.Public | BindingFlags.Static)
-                    .SingleOrDefault(m => m.Name == "Serialize" && m.GetParameters().Length == 3 && m.GetParameters()[0].ParameterType.IsGenericParameter && m.GetParameters()[1].ParameterType == typeof(TextWriter) &&  m.GetParameters()[2].ParameterType == typeof(Jil.Options))
+                typeof(JSON).GetMethods(BindingFlags.Public | BindingFlags.Static)
+                    .SingleOrDefault(m => m.Name == "Serialize" && m.GetParameters().Length == 3 && m.GetParameters()[0].ParameterType.IsGenericParameter && m.GetParameters()[1].ParameterType == typeof(TextWriter) &&  m.GetParameters()[2].ParameterType == typeof(Options))
             );
             Assert.IsNotNull(
-                typeof(Jil.JSON).GetMethods(BindingFlags.Public | BindingFlags.Static)
-                    .SingleOrDefault(m => m.Name == "Serialize" && m.GetParameters().Length == 2 && m.GetParameters()[0].ParameterType.IsGenericParameter && m.GetParameters()[1].ParameterType == typeof(Jil.Options))
+                typeof(JSON).GetMethods(BindingFlags.Public | BindingFlags.Static)
+                    .SingleOrDefault(m => m.Name == "Serialize" && m.GetParameters().Length == 2 && m.GetParameters()[0].ParameterType.IsGenericParameter && m.GetParameters()[1].ParameterType == typeof(Options))
             );
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("Deserialize", BindingFlags.Public | BindingFlags.Static, new[] { typeof(TextReader), typeof(Type), typeof(Jil.Options) } ));
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("Deserialize", BindingFlags.Public | BindingFlags.Static, new[] { typeof(string), typeof(Type), typeof(Jil.Options) } ));
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("Deserialize", BindingFlags.Public | BindingFlags.Static, new[] { typeof(TextReader), typeof(Jil.Options) } ));
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("Deserialize", BindingFlags.Public | BindingFlags.Static, new[] { typeof(string), typeof(Jil.Options) } ));
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("DeserializeDynamic", BindingFlags.Public | BindingFlags.Static, new[] { typeof(TextReader), typeof(Jil.Options) } ));
-            Assert.IsNotNull(typeof(Jil.JSON).GetMethod("DeserializeDynamic", BindingFlags.Public | BindingFlags.Static, new[] { typeof(string), typeof(Jil.Options) } ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("Deserialize", BindingFlags.Public | BindingFlags.Static, new[] { typeof(TextReader), typeof(Type), typeof(Options) } ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("Deserialize", BindingFlags.Public | BindingFlags.Static, new[] { typeof(string), typeof(Type), typeof(Options) } ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("Deserialize", BindingFlags.Public | BindingFlags.Static, new[] { typeof(TextReader), typeof(Options) } ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("Deserialize", BindingFlags.Public | BindingFlags.Static, new[] { typeof(string), typeof(Options) } ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("DeserializeDynamic", BindingFlags.Public | BindingFlags.Static, new[] { typeof(TextReader), typeof(Options) } ));
+            Assert.IsNotNull(typeof(JSON).GetMethod("DeserializeDynamic", BindingFlags.Public | BindingFlags.Static, new[] { typeof(string), typeof(Options) } ));
 
             // JilDirectiveAttribute
-            Assert.IsNotNull(typeof(Jil.JilDirectiveAttribute).GetConstructor(Type.EmptyTypes));
-            Assert.IsNotNull(typeof(Jil.JilDirectiveAttribute).GetConstructor(new[] { typeof(string) }));
-            Assert.IsNotNull(typeof(Jil.JilDirectiveAttribute).GetConstructor(new [] { typeof(bool) }));
-            Assert.IsNotNull(typeof(Jil.JilDirectiveAttribute).GetConstructor(new[] { typeof(Type) }));
+            Assert.IsNotNull(typeof(JilDirectiveAttribute).GetConstructor(Type.EmptyTypes));
+            Assert.IsNotNull(typeof(JilDirectiveAttribute).GetConstructor(new[] { typeof(string) }));
+            Assert.IsNotNull(typeof(JilDirectiveAttribute).GetConstructor(new [] { typeof(bool) }));
+            Assert.IsNotNull(typeof(JilDirectiveAttribute).GetConstructor(new[] { typeof(Type) }));
 
             // Options
-            Assert.IsNotNull(typeof(Jil.Options).GetConstructor(new[] { typeof(bool), typeof(bool), typeof(bool), typeof(Jil.DateTimeFormat), typeof(bool), typeof(Jil.UnspecifiedDateTimeKindBehavior) }));
+            Assert.IsNotNull(typeof(Options).GetConstructor(new[] { typeof(bool), typeof(bool), typeof(bool), typeof(DateTimeFormat), typeof(bool), typeof(UnspecifiedDateTimeKindBehavior) }));
         }
 
         [TestMethod]
@@ -783,7 +784,7 @@ namespace JilTests
                                     Assert.IsFalse(i1.AllowsNull);
                                     Assert.IsTrue(i2.AllowsNull);
                                 }
-            Assert.IsNotNull(typeof(Jil.Options).GetConstructor(new[] { typeof(bool), typeof(bool), typeof(bool), typeof(Jil.DateTimeFormat), typeof(bool), typeof(Jil.UnspecifiedDateTimeKindBehavior), typeof(Jil.SerializationNameFormat) }));
+            Assert.IsNotNull(typeof(Options).GetConstructor(new[] { typeof(bool), typeof(bool), typeof(bool), typeof(DateTimeFormat), typeof(bool), typeof(UnspecifiedDateTimeKindBehavior), typeof(SerializationNameFormat) }));
         }
     }
 }

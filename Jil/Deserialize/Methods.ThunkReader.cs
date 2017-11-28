@@ -1,14 +1,11 @@
-﻿using Jil.Common;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
+using JilFork.Common;
 
-namespace Jil.Deserialize
+namespace JilFork.Deserialize
 {
     static partial class Methods
     {

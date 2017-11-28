@@ -1,17 +1,13 @@
-﻿using Sigil.NonGeneric;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using Jil.Common;
-using Jil.SerializeDynamic;
+using JilFork.Common;
+using JilFork.SerializeDynamic;
+using Sigil.NonGeneric;
 
-namespace Jil.Serialize
+namespace JilFork.Serialize
 {
     class InlineSerializer<ForType>
     {
@@ -311,13 +307,12 @@ namespace Jil.Serialize
             {
                 if (kv.Value.Count == 1) continue;
 
-                Dictionary<char, MemberInfo> ignored1;
+                IReadOnlyCollection<Utils.Discriminant> ignored1;
                 MemberInfo ignored2;
-                Dictionary<UnionCharsets, MemberInfo> ignored3;
                 bool ignored4;
 
                 string errorMessage;
-                if (!Utils.CheckUnionLegality(DateFormat, kv.Key, kv.Value, out ignored1, out ignored2, out ignored3, out ignored4, out errorMessage))
+                if (!Utils.CheckUnionLegality(DateFormat, kv.Key, kv.Value, out ignored1, out ignored2, out ignored4, out errorMessage))
                 {
                     throw new ConstructionException(errorMessage);
                 }
@@ -393,16 +388,23 @@ namespace Jil.Serialize
             // It's a list or dictionary, go and build that code
             if (serializingType.IsListType() || serializingType.IsDictionaryType() || serializingType.IsReadOnlyListType() || serializingType.IsReadOnlyDictionaryType())
             {
-                LoadLocalOrArgumentAsReference(inLocal, member.DeclaringType);
+                if (inLocal != null)
+                {
+                    Emit.LoadLocal(inLocal);
+                }
+                else
+                {
+                    Emit.LoadArgument(1);
+                }
 
                 if (asField != null)
                 {
-                    Emit.LoadField(asField);  // field
+                    Emit.LoadField(asField);
                 }
 
                 if (asProp != null)
                 {
-                    LoadProperty(asProp);  // prop
+                    LoadProperty(asProp);
                 }
 
                 using (var loc = Emit.DeclareLocal(serializingType))
@@ -433,14 +435,39 @@ namespace Jil.Serialize
             }
 
             // Only put this on the stack if we'll need it
-            var preloadTextWriter = NeedsPreloadTextWriter(member, serializingType);
-
+            var preloadTextWriter =
+                serializingType.IsPrimitiveType() ||
+                (serializingType.IsEnum() && member.ShouldConvertEnum(serializingType)) ||
+                isRecursive ||
+                serializingType.IsNullableType() ||
+                serializingType.IsPrimitiveWrapper();
             if (preloadTextWriter)
             {
                 Emit.LoadArgument(0);   // TextWriter
             }
 
-            LoadLocalOrArgumentAsReference(inLocal, member.DeclaringType);  // TextWriter obj
+            if (inLocal == null)
+            {
+                if (member.DeclaringType.IsValueType())
+                {
+                    Emit.LoadArgumentAddress(1);    // TextWriter obj*
+                }
+                else
+                {
+                    Emit.LoadArgument(1);           // TextWriter obj
+                }
+            }
+            else
+            {
+                if (inLocal.LocalType.IsValueType())
+                {
+                    Emit.LoadLocalAddress(inLocal); // TextWriter obj*
+                }
+                else
+                {
+                    Emit.LoadLocal(inLocal);        // TextWriter obj
+                }
+            }
 
             if (asField != null)
             {
@@ -513,34 +540,6 @@ namespace Jil.Serialize
                 }
 
                 WriteObject(serializingType, loc);
-            }
-        }
-
-        // if it's a reference type, load the argument directly (it's a pointer)
-        // if it's a value type, load a pointer to the argument
-        private void LoadLocalOrArgumentAsReference(Sigil.Local inLocal, Type type)
-        {
-            if (inLocal == null)
-            {
-                if (type.IsValueType())
-                {
-                    Emit.LoadArgumentAddress(1);
-                }
-                else
-                {
-                    Emit.LoadArgument(1);
-                }
-            }
-            else
-            {
-                if (inLocal.LocalType.IsValueType())
-                {
-                    Emit.LoadLocalAddress(inLocal);
-                }
-                else
-                {
-                    Emit.LoadLocal(inLocal);
-                }
             }
         }
 
@@ -634,67 +633,60 @@ namespace Jil.Serialize
             }
             else
             {
-                if (underlyingType.IsPrimitiveWrapper())
+                if (underlyingType.IsEnum())
                 {
-                    WritePrimitiveWrapper(underlyingType, quotesNeedHandling);
+                    WriteEnumOrPrimitive(nullableMember, underlyingType, requiresQuotes: false, hasTextWriter: true, popTextWriter: true, containedInNullable: true);
                 }
                 else
                 {
-                    if (underlyingType.IsEnum())
+                    using (var loc = Emit.DeclareLocal(underlyingType))
                     {
-                        WriteEnumOrPrimitive(nullableMember, underlyingType, requiresQuotes: false, hasTextWriter: true, popTextWriter: true, containedInNullable: true);
-                    }
-                    else
-                    {
-                        using (var loc = Emit.DeclareLocal(underlyingType))
+                        Emit.StoreLocal(loc);   // TextWriter
+
+                        if (RecursiveTypes.ContainsKey(underlyingType))
                         {
-                            Emit.StoreLocal(loc);   // TextWriter
-
-                            if (RecursiveTypes.ContainsKey(underlyingType))
+                            Type act;
+                            if (BuildingToString)
                             {
-                                Type act;
-                                if (BuildingToString)
-                                {
-                                    act = typeof(StringThunkDelegate<>).MakeGenericType(underlyingType);
-                                }
-                                else
-                                {
-                                    act = typeof(Action<,,>).MakeGenericType(typeof(TextWriter), underlyingType, typeof(int));
-                                }
-
-                                var invoke = act.GetMethod("Invoke");
-
-                                Emit.Pop();                                     // --empty--
-                                Emit.LoadLocal(RecursiveTypes[underlyingType]); // Action<TextWriter, underlyingType>
-                                Emit.LoadArgument(0);                           // Action<,> TextWriter
-                                Emit.LoadLocal(loc);                            // Action<,> TextWriter value
-                                Emit.LoadArgument(2);                           // Action<,> TextWriter value int
-                                Emit.Call(invoke);                              // --empty--
+                                act = typeof(StringThunkDelegate<>).MakeGenericType(underlyingType);
                             }
                             else
                             {
-                                Emit.Pop();                                                             // --empty--
+                                act = typeof(Action<,,>).MakeGenericType(typeof(TextWriter), underlyingType, typeof(int));
+                            }
 
-                                if (underlyingType.IsListType())
+                            var invoke = act.GetMethod("Invoke");
+
+                            Emit.Pop();                                     // --empty--
+                            Emit.LoadLocal(RecursiveTypes[underlyingType]); // Action<TextWriter, underlyingType>
+                            Emit.LoadArgument(0);                           // Action<,> TextWriter
+                            Emit.LoadLocal(loc);                            // Action<,> TextWriter value
+                            Emit.LoadArgument(2);                           // Action<,> TextWriter value int
+                            Emit.Call(invoke);                              // --empty--
+                        }
+                        else
+                        {
+                            if (underlyingType.IsListType())
+                            {
+                                WriteList(nullableMember, underlyingType, loc);
+                            }
+                            else
+                            {
+                                if (underlyingType.IsDictionaryType())
                                 {
-                                    WriteList(nullableMember, underlyingType, loc);                     // --empty--
+                                    WriteDictionary(nullableMember, underlyingType, loc);
                                 }
                                 else
                                 {
-                                    if (underlyingType.IsDictionaryType())
+                                    if (underlyingType.IsEnumerableType())
                                     {
-                                        WriteDictionary(nullableMember, underlyingType, loc);           // --empty--
+                                        WriteEnumerable(nullableMember, underlyingType, loc);
                                     }
                                     else
                                     {
-                                        if (underlyingType.IsEnumerableType())
-                                        {   
-                                            WriteEnumerable(nullableMember, underlyingType, loc);       // --empty--
-                                        }
-                                        else
-                                        {
-                                            WriteObject(underlyingType, loc);                           // --empty--
-                                        }
+                                        Emit.Pop();
+
+                                        WriteObject(underlyingType, loc);
                                     }
                                 }
                             }
@@ -2221,18 +2213,6 @@ namespace Jil.Serialize
             Emit.MarkLabel(end);
         }
 
-        bool NeedsPreloadTextWriter(MemberInfo listMember, Type elementType)
-        {
-            var isRecursive = RecursiveTypes.ContainsKey(elementType);
-
-            return 
-                elementType.IsPrimitiveType() || 
-                elementType.IsPrimitiveWrapper() || 
-                (listMember != null && elementType.IsEnum() && listMember.ShouldConvertEnum(elementType)) || 
-                isRecursive || 
-                elementType.IsNullableType();
-        }
-
         void WriteListFast(MemberInfo listMember, Type listType, Sigil.Local inLocal = null)
         {
             Action loadList =
@@ -2263,7 +2243,7 @@ namespace Jil.Serialize
             var accessorMtd = listInterface.GetProperty("Item").GetMethod;
 
             var isRecursive = RecursiveTypes.ContainsKey(elementType);
-            var preloadTextWriter = NeedsPreloadTextWriter(listMember, elementType);
+            var preloadTextWriter = elementType.IsPrimitiveType() || elementType.IsPrimitiveWrapper() || (listMember != null && elementType.IsEnum() && listMember.ShouldConvertEnum(elementType)) || isRecursive || elementType.IsNullableType();
 
             var notNull = Emit.DefineLabel();
 
@@ -2388,7 +2368,7 @@ namespace Jil.Serialize
             var countMtd = listType.GetProperty("Length").GetMethod;
 
             var isRecursive = RecursiveTypes.ContainsKey(elementType);
-            var preloadTextWriter = NeedsPreloadTextWriter(arrayMember, elementType);
+            var preloadTextWriter = elementType.IsPrimitiveType() || (arrayMember != null && elementType.IsEnum() && arrayMember.ShouldConvertEnum(elementType)) || isRecursive || elementType.IsNullableType();
 
             var notNull = Emit.DefineLabel();
 
@@ -2542,81 +2522,48 @@ namespace Jil.Serialize
             var elementType = enumerableType.GetEnumerableInterface().GetGenericArguments()[0];
 
             var iEnumerable = typeof(IEnumerable<>).MakeGenericType(elementType);
-
-            bool virtualCallGetEnumerator;
-            MethodInfo iEnumerableGetEnumerator;
-            if (enumerableType.IsValueType())
-            {
-                virtualCallGetEnumerator = false;
-                iEnumerableGetEnumerator = enumerableType.GetMethod("GetEnumerator");
-            }
-            else
-            {
-                virtualCallGetEnumerator = true;
-                iEnumerableGetEnumerator = iEnumerable.GetMethod("GetEnumerator");
-            }
+            var iEnumerableGetEnumerator = iEnumerable.GetMethod("GetEnumerator");
             var enumeratorMoveNext = typeof(System.Collections.IEnumerator).GetMethod("MoveNext");
             var enumeratorCurrent = iEnumerableGetEnumerator.ReturnType.GetProperty("Current");
 
             var isRecursive = RecursiveTypes.ContainsKey(elementType);
-            var preloadTextWriter = NeedsPreloadTextWriter(enumerableMember, elementType);
+            var preloadTextWriter = elementType.IsPrimitiveType() || (enumerableMember != null && elementType.IsEnum() && enumerableMember.ShouldConvertEnum(elementType)) || isRecursive || elementType.IsNullableType();
 
             var notNull = Emit.DefineLabel();
 
-            Action loadLocal =
-                () =>
-                {
-                    if (enumerableType.IsValueType())
-                    {
-                        if (inLocal != null)
-                        {
-                            Emit.LoadLocalAddress(inLocal); // IEnumerable*
-                        }
-                        else
-                        {
-                            Emit.LoadArgumentAddress(1);    // IEnumerable*
-                        }
-                    }
-                    else
-                    {
-                        if (inLocal != null)
-                        {
-                            Emit.LoadLocal(inLocal);        // IEnumerable
-                        }
-                        else
-                        {
-                            Emit.LoadArgument(1);           // IEnumerable
-                        }
-                    }
-                };
-
-            loadLocal();                        // IEnumerable(*)
+            if (inLocal != null)
+            {
+                Emit.LoadLocal(inLocal);
+            }
+            else
+            {
+                Emit.LoadArgument(1);
+            }
 
             var end = Emit.DefineLabel();
 
-            Emit.BranchIfTrue(notNull);         // --empty--
-            WriteString("null");                // --empty--
-            Emit.Branch(end);                   // --empty--
+            Emit.BranchIfTrue(notNull);
+            WriteString("null");
+            Emit.Branch(end);
 
-            Emit.MarkLabel(notNull);            // --empty--
-            WriteString("[");                   // --empty--
+            Emit.MarkLabel(notNull);
+            WriteString("[");
 
             var done = Emit.DefineLabel();
 
             using (var e = Emit.DeclareLocal(iEnumerableGetEnumerator.ReturnType))
             {
-                loadLocal();
-
-                if (virtualCallGetEnumerator)
+                if (inLocal != null)
                 {
-                    Emit.CallVirtual(iEnumerableGetEnumerator);     // IEnumerator<>
+                    Emit.LoadLocal(inLocal);
                 }
                 else
                 {
-                    Emit.Call(iEnumerableGetEnumerator);            // IEnumerator<T>
+                    Emit.LoadArgument(1);
                 }
 
-                Emit.StoreLocal(e);                                 // --empty--
+                Emit.CallVirtual(iEnumerableGetEnumerator);   // IEnumerator<>
+                Emit.StoreLocal(e);                           // --empty--
 
                 // Do the whole first element before the loop starts, so we don't need a branch to emit a ','
                 {
@@ -2944,7 +2891,7 @@ namespace Jil.Serialize
             }
 
             var isRecursive = RecursiveTypes.ContainsKey(elementType);
-            var preloadTextWriter = NeedsPreloadTextWriter(dictionaryMember, elementType);
+            var preloadTextWriter = elementType.IsPrimitiveType() || (dictionaryMember != null && elementType.IsEnum() && dictionaryMember.ShouldConvertEnum(elementType)) || isRecursive || elementType.IsNullableType();
 
             var notNull = Emit.DefineLabel();
 
@@ -3091,7 +3038,7 @@ namespace Jil.Serialize
             }
 
             var isRecursive = RecursiveTypes.ContainsKey(elementType);
-            var preloadTextWriter = NeedsPreloadTextWriter(dictionaryMember, elementType);
+            var preloadTextWriter = elementType.IsPrimitiveType() || elementType.IsPrimitiveWrapper() || (dictionaryMember != null && elementType.IsEnum() && dictionaryMember.ShouldConvertEnum(elementType)) || isRecursive || elementType.IsNullableType();
 
             var notNull = Emit.DefineLabel();
 
@@ -3771,10 +3718,6 @@ namespace Jil.Serialize
             using (var notFirst = Emit.DeclareLocal<bool>())
             {
                 Emit.StoreLocal(enumLoc);       // TextWriter?
-
-                Emit.LoadConstant(false);       // TextWriter? false
-                Emit.StoreLocal(notFirst);      // TextWriter?
-
                 if (popTextWriter)
                 {
                     Emit.Pop();                 // --empty--

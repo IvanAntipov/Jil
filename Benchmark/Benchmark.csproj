@@ -111,7 +111,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Jil\Jil.csproj">
+    <ProjectReference Include="..\Jil\JilFork.csproj">
       <Project>{73d243e7-dd9b-4546-9b71-4ee8bf5ed6c3}</Project>
       <Name>Jil</Name>
     </ProjectReference>

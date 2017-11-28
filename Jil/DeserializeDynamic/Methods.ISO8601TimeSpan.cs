@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using Jil.Common;
+using JilFork.Common;
 
-namespace Jil.DeserializeDynamic
+namespace JilFork.DeserializeDynamic
 {
     static partial class Methods
     {

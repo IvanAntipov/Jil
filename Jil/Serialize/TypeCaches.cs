@@ -1,14 +1,7 @@
-using Sigil;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Jil.Serialize
+namespace JilFork.Serialize
 {
     interface ISerializeOptions
     {

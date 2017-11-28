@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using JilFork.Serialize;
 
-namespace Jil.SerializeDynamic
+namespace JilFork.SerializeDynamic
 {
     class OptionsLookup
     {
@@ -38,8 +36,8 @@ namespace Jil.SerializeDynamic
         }
 
         static Type SwitchOnNameFormat<Verbatim, CamelCase>(Options opts) 
-            where Verbatim  : Jil.Serialize.ISerializeOptions
-            where CamelCase : Jil.Serialize.ISerializeOptions
+            where Verbatim  : ISerializeOptions
+            where CamelCase : ISerializeOptions
         {
             switch(opts.SerializationNameFormat)
             {

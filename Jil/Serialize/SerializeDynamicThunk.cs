@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Sigil;
 using System.Reflection;
-using Jil.Common;
+using JilFork.Common;
+using Sigil;
 
-namespace Jil.Serialize
+namespace JilFork.Serialize
 {
     class SerializeDynamicThunk<T>
     {

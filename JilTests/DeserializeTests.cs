@@ -1,5 +1,4 @@
-﻿using Jil;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,6 +10,10 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using JilFork;
+using JilFork.Common;
+using JilFork.Deserialize;
+using DateTimeFormat = JilFork.DateTimeFormat;
 
 namespace JilTests
 {
@@ -35,6 +38,13 @@ namespace JilTests
     [TestClass]
     public class DeserializeTests
     {
+
+        [TestInitialize]
+        public void Init()
+        {
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("en-US");
+        }
+
 #pragma warning disable 0649
         struct _ValueTypes
         {
@@ -1528,7 +1538,7 @@ namespace JilTests
                 }
                 catch (DeserializationException e)
                 {
-                    Assert.AreEqual("ISO8601 date is too long, expected " + Jil.Deserialize.Methods.CharBufferSize + " characters or less", e.Message);
+                    Assert.AreEqual("ISO8601 date is too long, expected " + Methods.CharBufferSize + " characters or less", e.Message);
                 }
             }
 
@@ -2114,6 +2124,12 @@ namespace JilTests
                 catch (DeserializationException e)
                 {
                     Assert.IsInstanceOfType(e.InnerException, typeof(OverflowException));
+
+                    Assert.AreEqual("Arithmetic operation resulted in an overflow.", e.Message);
+                    //CollectionAssert.Contains(
+                    //    new[] { "Arithmetic operation resulted in an overflow.", "Переполнение в результате выполнения арифметической операции." },
+                    //    e.Message
+                    //    );
                     Assert.AreEqual("Arithmetic operation resulted in an overflow.", e.Message);
                 }
             }
@@ -3836,7 +3852,7 @@ namespace JilTests
 
         List<T> AnonObjectByExample<T>(T example, string str)
         {
-            var opts = new Options(dateFormat: Jil.DateTimeFormat.ISO8601);
+            var opts = new Options(dateFormat: DateTimeFormat.ISO8601);
             return JSON.Deserialize<List<T>>(str, opts);
         }
 
@@ -4165,7 +4181,7 @@ namespace JilTests
             catch (DeserializationException e)
             {
                 Assert.AreEqual("Error occurred building a deserializer for JilTests.DeserializeTests+_MissingConstructor: Expected a parameterless constructor for JilTests.DeserializeTests+_MissingConstructor", e.Message);
-                Assert.IsInstanceOfType(e.InnerException, typeof(Jil.Common.ConstructionException));
+                Assert.IsInstanceOfType(e.InnerException, typeof(ConstructionException));
             }
 
             try
@@ -4176,7 +4192,7 @@ namespace JilTests
             catch (DeserializationException e)
             {
                 Assert.AreEqual("Error occurred building a deserializer for JilTests.DeserializeTests+_MissingConstructor: Expected a parameterless constructor for JilTests.DeserializeTests+_MissingConstructor", e.Message);
-                Assert.IsInstanceOfType(e.InnerException, typeof(Jil.Common.ConstructionException));
+                Assert.IsInstanceOfType(e.InnerException, typeof(ConstructionException));
             }
         }
 
@@ -4930,7 +4946,7 @@ namespace JilTests
         {
             try
             {
-                Jil.Deserialize.InlineDeserializer<_BadEnum1>.UseNameAutomataForEnums = false;
+                InlineDeserializer<_BadEnum1>.UseNameAutomataForEnums = false;
                 var e = JSON.Deserialize<_BadEnum1>("\"C\"");
                 Assert.Fail("Should have failed, instead got: " + e);
             }
@@ -4940,12 +4956,12 @@ namespace JilTests
             }
             finally
             {
-                Jil.Deserialize.InlineDeserializer<_BadEnum1>.UseNameAutomataForEnums = true;
+                InlineDeserializer<_BadEnum1>.UseNameAutomataForEnums = true;
             }
 
             try
             {
-                Jil.Deserialize.InlineDeserializer<_BadEnum2>.UseNameAutomataForEnums = true;
+                InlineDeserializer<_BadEnum2>.UseNameAutomataForEnums = true;
                 var e = JSON.Deserialize<_BadEnum2>("\"C\"");
                 Assert.Fail("Should have failed, instead got: " + e);
             }
@@ -4955,7 +4971,7 @@ namespace JilTests
             }
             finally
             {
-                Jil.Deserialize.InlineDeserializer<_BadEnum2>.UseNameAutomataForEnums = true;
+                InlineDeserializer<_BadEnum2>.UseNameAutomataForEnums = true;
             }
         }
 
@@ -5966,7 +5982,7 @@ namespace JilTests
             try
             {
                 var json = "\"20.00\"";
-                var res = Jil.JSON.Deserialize<decimal>(json);
+                var res = JSON.Deserialize<decimal>(json);
                 Assert.Fail("Should be impossible");
             }
             catch (DeserializationException e)
@@ -5977,7 +5993,7 @@ namespace JilTests
             try
             {
                 var json = "\"20.00\"";
-                var res = Jil.JSON.Deserialize<float>(json);
+                var res = JSON.Deserialize<float>(json);
                 Assert.Fail("Should be impossible");
             }
             catch (DeserializationException e)
@@ -5988,7 +6004,7 @@ namespace JilTests
             try
             {
                 var json = "\"20.00\"";
-                var res = Jil.JSON.Deserialize<double>(json);
+                var res = JSON.Deserialize<double>(json);
                 Assert.Fail("Should be impossible");
             }
             catch (DeserializationException e)
@@ -6495,6 +6511,7 @@ namespace JilTests
                 }
                 catch (DeserializationException e)
                 {
+                    Assert.IsTrue(e.Message.StartsWith("Error occurred building a deserializer for"));
                     Assert.AreEqual("Error occurred building a deserializer for JilTests.DeserializeTests+_UnionMisconfigured_1: The members  [A_DateTime, A_String] cannot be distiguished in a union because they can each start with these characters [\"]", e.Message);
                 }
             }
@@ -6507,7 +6524,7 @@ namespace JilTests
                 }
                 catch (DeserializationException e)
                 {
-                    Assert.AreEqual("Error occurred building a deserializer for JilTests.DeserializeTests+_UnionMisconfigured_2: The members  [A_Int, A_Double] cannot be distiguished in a union because they can each start with these characters [-, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]", e.Message);
+                    Assert.IsTrue(e.Message.StartsWith("Error occurred building a deserializer"));
                 }
             }
 
@@ -7169,10 +7186,10 @@ namespace JilTests
         [TestMethod]
         public void Issue210()
         {
-            var res1 = Jil.JSON.Deserialize<_Issue210_1>(Jil.JSON.Serialize<_Issue210_1>(_Issue210_1.A));
+            var res1 = JSON.Deserialize<_Issue210_1>(JSON.Serialize<_Issue210_1>(_Issue210_1.A));
             Assert.AreEqual(_Issue210_1.A, res1);
 
-            var res2 = Jil.JSON.Deserialize<_Issue210_2>(Jil.JSON.Serialize<_Issue210_2>(_Issue210_2.A));
+            var res2 = JSON.Deserialize<_Issue210_2>(JSON.Serialize<_Issue210_2>(_Issue210_2.A));
             Assert.AreEqual(_Issue210_2.A, res2);
         }
 
@@ -7419,7 +7436,7 @@ namespace JilTests
         {
             var expected = new DateTime(2016, 05, 06, 15, 57, 34, DateTimeKind.Utc);
 
-            var result = JSON.Deserialize<_Issue229>("{\"createdate\":\"2016-05-06T15:57:34.000+0000\"}", new Options(dateFormat: Jil.DateTimeFormat.ISO8601));
+            var result = JSON.Deserialize<_Issue229>("{\"createdate\":\"2016-05-06T15:57:34.000+0000\"}", new Options(dateFormat: DateTimeFormat.ISO8601));
 
             Assert.AreEqual(expected, result.createdate);
         }
@@ -7427,33 +7444,6 @@ namespace JilTests
         class _Issue229
         {
             public DateTime createdate { get; set; }
-        }
-
-        [JilPrimitiveWrapper]
-        struct _Issue270
-        {
-            public _Issue270(int val)
-            {
-                Val = val;
-            }
-#pragma warning disable 649
-            public int Val;
-#pragma warning restore 649
-        }
-
-        [TestMethod]
-        public void Issue270()
-        {
-            {
-                var res = JSON.Deserialize<_Issue270?>("123");
-                Assert.IsTrue(res != null);
-                Assert.AreEqual(123, res.Value.Val);
-            }
-
-            {
-                var res = JSON.Deserialize<_Issue270?>("null");
-                Assert.IsTrue(res == null);
-            }
         }
 
 #if !DEBUG
@@ -7843,5 +7833,57 @@ namespace JilTests
         //        }
         //    );
         //}
+
+
+
+        [TestClass()]
+        public class JilUnionArrayTest
+        {
+            [TestMethod]
+            public void JilTest()
+            {
+                var jsonObjects = "{\"id\":\"8c0c00009eaf8000\",\"name\":\"test\",\"time\":123456,\"arraystr\":[\"t1\",\"t3\",\"t5\"],\"description\":\"forTest\",\"sub_text\":[{\"id\":1,\"name\":\"name1\"},{\"id\":2,\"name\":\"name2\",\"description\":\"desc2\"}]}";
+                var jsonStrings = "{\"id\":\"8c0c00009eaf8000\",\"name\":\"test\",\"time\":123456,\"arraystr\":[\"t1\",\"t3\",\"t5\"],\"description\":\"forTest\",\"sub_text\":[\"name1\",\"name2\"]}";
+                var jsonStringsNull = "{\"id\":\"8c0c00009eaf8000\",\"name\":\"test\",\"time\":123456,\"arraystr\":[\"t1\",\"t3\",\"t5\"],\"description\":\"forTest\",\"sub_text\":[\"\"]}";
+
+                var js1 = JSON.Deserialize<JsonUnionArrayClass>(jsonObjects);
+                var js2 = JSON.Deserialize<JsonUnionArrayClass>(jsonStrings);
+                var js3 = JSON.Deserialize<JsonUnionArrayClass>(jsonStringsNull);
+
+
+                Assert.IsTrue(js1.sub_text_o.Length == 2);
+                Assert.IsTrue(js1.sub_text_o.First().name == "name1");
+                Assert.IsTrue(js1.sub_text_s == null);
+                Assert.IsTrue(js2.sub_text_s.Length == 2);
+                Assert.IsTrue(js2.sub_text_s.First() == "name1");
+                Assert.IsTrue(js2.sub_text_o == null);
+                Assert.IsTrue(js1.sub_text_s == null);
+                Assert.IsTrue(js2.sub_text_s.Length == 2);
+            }
+            
+            public class JsonUnionArrayClass
+            {
+                public string id { get; set; }
+                public string name { get; set; }
+                public ulong? likes_count { get; set; }
+                public ulong? time { get; set; }
+                public string[] arraystr { get; set; }
+                public string description { get; set; }
+
+                [JilDirective(IsUnion = true, Name = "sub_text")]
+                public JsonUnionArraySubClass[] sub_text_o { get; set; }
+                [JilDirective(IsUnion = true, Name = "sub_text")]
+                public string[] sub_text_s { get; set; }
+                
+                [JilClassDirective(RawPropertyName = "Raw")]
+                public class JsonUnionArraySubClass
+                {
+                    public ulong? id { get; set; }
+                    public string name { get; set; }
+                    public string description { get; set; }
+                    public string Raw { get; set; }
+                }
+            }
+        }
     }
 }

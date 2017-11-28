@@ -1,15 +1,14 @@
-using Jil.Serialize;
-using Jil.SerializeDynamic;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Jil.Common;
+using JilFork.Common;
+using JilFork.Deserialize;
+using JilFork.DeserializeDynamic;
+using JilFork.Serialize;
+using JilFork.SerializeDynamic;
+using MicrosoftStyle = JilFork.Serialize.MicrosoftStyle;
+using MicrosoftStyleCamelCase = JilFork.Serialize.MicrosoftStyleCamelCase;
 
-namespace Jil
+namespace JilFork
 {
     /// <summary>
     /// Fast JSON serializer.
@@ -138,18 +137,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyle, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyle, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -161,18 +160,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -189,18 +188,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -212,18 +211,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -245,18 +244,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -268,18 +267,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -296,18 +295,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -319,18 +318,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -357,18 +356,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrint, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrint, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -380,18 +379,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -408,18 +407,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -431,18 +430,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -464,18 +463,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -487,18 +486,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -515,18 +514,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -538,18 +537,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -581,18 +580,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<Milliseconds, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<Milliseconds, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -604,18 +603,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -632,18 +631,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -655,18 +654,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -688,18 +687,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -711,18 +710,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -739,18 +738,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -762,18 +761,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -800,18 +799,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrint, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrint, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -823,18 +822,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -851,18 +850,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -874,18 +873,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -907,18 +906,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -930,18 +929,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -958,18 +957,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -981,18 +980,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1024,18 +1023,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<Seconds, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<Seconds, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1047,18 +1046,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1075,18 +1074,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1098,18 +1097,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1131,18 +1130,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1154,18 +1153,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1182,18 +1181,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1205,18 +1204,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1243,18 +1242,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrint, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrint, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1266,18 +1265,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1294,18 +1293,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1317,18 +1316,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1350,18 +1349,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1373,18 +1372,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1401,18 +1400,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1424,18 +1423,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1467,18 +1466,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601CamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601CamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601Utc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601Utc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601UtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601UtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1490,18 +1489,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601Inherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601Inherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601InheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601InheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601InheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601InheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601InheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601InheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1518,18 +1517,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601JSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601JSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601JSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601JSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1541,18 +1540,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601JSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601JSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601JSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601JSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1574,18 +1573,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1597,18 +1596,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1625,18 +1624,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1648,18 +1647,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1686,18 +1685,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrint, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrint, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1709,18 +1708,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1737,18 +1736,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1760,18 +1759,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1793,18 +1792,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1816,18 +1815,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1844,18 +1843,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1867,18 +1866,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1910,18 +1909,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123CamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123CamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123Utc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123Utc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123UtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123UtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1933,18 +1932,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123Inherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123Inherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123InheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123InheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123InheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123InheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123InheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123InheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1961,18 +1960,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123JSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123JSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123JSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123JSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -1984,18 +1983,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123JSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123JSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123JSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123JSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2017,18 +2016,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2040,18 +2039,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2068,18 +2067,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2091,18 +2090,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2129,18 +2128,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrint, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrint, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2152,18 +2151,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2180,18 +2179,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2203,18 +2202,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2236,18 +2235,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNulls, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNulls, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2259,18 +2258,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2287,18 +2286,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONP, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONP, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2310,18 +2309,18 @@ namespace Jil
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInherited, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInherited, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.Get();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedUtc, T>.Get();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.Get();
                                                             }
                                                             break;
                                                     }
@@ -2344,7 +2343,7 @@ namespace Jil
         /// <summary>
         /// Generated giant switch of option finding via OptionsGeneration.linq
         /// </summary>
-        static StringThunkDelegate<T> GetThunkerDelegate<T>(Options options)
+        static Serialize.StringThunkDelegate<T> GetThunkerDelegate<T>(Options options)
         {
             // Start OptionsGeneration.linq generated content: GetThunkerDelegate 
 switch (options.UseDateTimeFormat)
@@ -2368,18 +2367,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyle, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyle, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2391,18 +2390,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2419,18 +2418,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2442,18 +2441,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2475,18 +2474,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2498,18 +2497,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2526,18 +2525,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2549,18 +2548,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStyleExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2587,18 +2586,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrint, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrint, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2610,18 +2609,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2638,18 +2637,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2661,18 +2660,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2694,18 +2693,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2717,18 +2716,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2745,18 +2744,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2768,18 +2767,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MicrosoftStylePrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2811,18 +2810,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<Milliseconds, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<Milliseconds, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2834,18 +2833,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2862,18 +2861,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2885,18 +2884,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2918,18 +2917,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2941,18 +2940,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2969,18 +2968,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -2992,18 +2991,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3030,18 +3029,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrint, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrint, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3053,18 +3052,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3081,18 +3080,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3104,18 +3103,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3137,18 +3136,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3160,18 +3159,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3188,18 +3187,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3211,18 +3210,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<MillisecondsPrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3254,18 +3253,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<Seconds, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<Seconds, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3277,18 +3276,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3305,18 +3304,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3328,18 +3327,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3361,18 +3360,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3384,18 +3383,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3412,18 +3411,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3435,18 +3434,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3473,18 +3472,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrint, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrint, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3496,18 +3495,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3524,18 +3523,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3547,18 +3546,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3580,18 +3579,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3603,18 +3602,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3631,18 +3630,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3654,18 +3653,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<SecondsPrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3697,18 +3696,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601CamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601CamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601Utc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601Utc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601UtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601UtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3720,18 +3719,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601Inherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601Inherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601InheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601InheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601InheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601InheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601InheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601InheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3748,18 +3747,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601JSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601JSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601JSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601JSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3771,18 +3770,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601JSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601JSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601JSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601JSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601JSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3804,18 +3803,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3827,18 +3826,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3855,18 +3854,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3878,18 +3877,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601ExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601ExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3916,18 +3915,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrint, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrint, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3939,18 +3938,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3967,18 +3966,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -3990,18 +3989,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4023,18 +4022,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4046,18 +4045,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4074,18 +4073,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4097,18 +4096,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<ISO8601PrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4140,18 +4139,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123CamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123CamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123Utc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123Utc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123UtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123UtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4163,18 +4162,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123Inherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123Inherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123InheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123InheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123InheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123InheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123InheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123InheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4191,18 +4190,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123JSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123JSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123JSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123JSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4214,18 +4213,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123JSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123JSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123JSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123JSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123JSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4247,18 +4246,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4270,18 +4269,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4298,18 +4297,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4321,18 +4320,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123ExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123ExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4359,18 +4358,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrint, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrint, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4382,18 +4381,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4410,18 +4409,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4433,18 +4432,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4466,18 +4465,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNulls, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNulls, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4489,18 +4488,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4517,18 +4516,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONP, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONP, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4540,18 +4539,18 @@ switch (options.UseDateTimeFormat)
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInherited, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                         case UnspecifiedDateTimeKindBehavior.IsUTC:
                                                             switch (options.SerializationNameFormat)
                                                             {
                                                                 case SerializationNameFormat.Verbatim:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedUtc, T>.GetToString();
                                                                 case SerializationNameFormat.CamelCase:
-                                                                    return TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
+                                                                    return JilFork.Serialize.TypeCache<RFC1123PrettyPrintExcludeNullsJSONPInheritedUtcCamelCase, T>.GetToString();
                                                             }
                                                             break;
                                                     }
@@ -4621,7 +4620,7 @@ switch (options.UseDateTimeFormat)
                 return DeserializeDynamic(reader, options);
             }
 
-            return Jil.Deserialize.DeserializeIndirect.DeserializeFromStream(reader.MakeSupportPeek(), type, options);
+            return DeserializeIndirect.DeserializeFromStream(reader.MakeSupportPeek(), type, options);
         }
 
         /// <summary>
@@ -4652,7 +4651,7 @@ switch (options.UseDateTimeFormat)
                 return DeserializeDynamic(text, options);
             }
 
-            return Jil.Deserialize.DeserializeIndirect.DeserializeFromString(text, type, options);
+            return DeserializeIndirect.DeserializeFromString(text, type, options);
         }
 
         /// <summary>
@@ -4685,45 +4684,45 @@ switch (options.UseDateTimeFormat)
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.MicrosoftStyle, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<Deserialize.MicrosoftStyle, T>.Get()(reader, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.MicrosoftStyleCamelCase, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<Deserialize.MicrosoftStyleCamelCase, T>.Get()(reader, 0);
                         }
                         break;
                     case DateTimeFormat.MillisecondsSinceUnixEpoch:
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.MillisecondStyle, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<MillisecondStyle, T>.Get()(reader, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.MillisecondStyleCamelCase, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<MillisecondStyleCamelCase, T>.Get()(reader, 0);
                         }
                         break;
                     case DateTimeFormat.SecondsSinceUnixEpoch:
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.SecondStyle, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<SecondStyle, T>.Get()(reader, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.SecondStyleCamelCase, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<SecondStyleCamelCase, T>.Get()(reader, 0);
                         }
                         break;
                     case DateTimeFormat.ISO8601:
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.ISO8601Style, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<ISO8601Style, T>.Get()(reader, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.ISO8601StyleCamelCase, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<ISO8601StyleCamelCase, T>.Get()(reader, 0);
                         }
                         break;
                     case DateTimeFormat.RFC1123:
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.RFC1123Style, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<RFC1123Style, T>.Get()(reader, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.RFC1123StyleCamelCase, T>.Get()(reader, 0);
+                                return JilFork.Deserialize.TypeCache<RFC1123StyleCamelCase, T>.Get()(reader, 0);
                         }
                         break;
                 }
@@ -4760,7 +4759,7 @@ switch (options.UseDateTimeFormat)
             {
                 options = options ?? DefaultOptions;
 
-                var thunk = new Jil.Deserialize.ThunkReader(text);
+                var thunk = new ThunkReader(text);
 
                 switch (options.UseDateTimeFormat)
                 {
@@ -4768,45 +4767,45 @@ switch (options.UseDateTimeFormat)
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.MicrosoftStyle, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<Deserialize.MicrosoftStyle, T>.GetFromString()(ref thunk, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.MicrosoftStyleCamelCase, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<Deserialize.MicrosoftStyleCamelCase, T>.GetFromString()(ref thunk, 0);
                         }
                         break;
                     case DateTimeFormat.MillisecondsSinceUnixEpoch:
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.MillisecondStyle, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<MillisecondStyle, T>.GetFromString()(ref thunk, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.MillisecondStyleCamelCase, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<MillisecondStyleCamelCase, T>.GetFromString()(ref thunk, 0);
                         }
                         break;
                     case DateTimeFormat.SecondsSinceUnixEpoch:
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.SecondStyle, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<SecondStyle, T>.GetFromString()(ref thunk, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.SecondStyleCamelCase, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<SecondStyleCamelCase, T>.GetFromString()(ref thunk, 0);
                         }
                         break;
                     case DateTimeFormat.ISO8601:
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.ISO8601Style, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<ISO8601Style, T>.GetFromString()(ref thunk, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.ISO8601StyleCamelCase, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<ISO8601StyleCamelCase, T>.GetFromString()(ref thunk, 0);
                         }
                         break;
                     case DateTimeFormat.RFC1123:
                         switch (options.SerializationNameFormat)
                         {
                             case SerializationNameFormat.Verbatim:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.RFC1123Style, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<RFC1123Style, T>.GetFromString()(ref thunk, 0);
                             case SerializationNameFormat.CamelCase:
-                                return Jil.Deserialize.TypeCache<Jil.Deserialize.RFC1123StyleCamelCase, T>.GetFromString()(ref thunk, 0);
+                                return JilFork.Deserialize.TypeCache<RFC1123StyleCamelCase, T>.GetFromString()(ref thunk, 0);
                         }
                         break;
                 }
@@ -4829,7 +4828,7 @@ switch (options.UseDateTimeFormat)
         {
             options = options ?? DefaultOptions;
 
-            var built = Jil.DeserializeDynamic.DynamicDeserializer.Deserialize(reader.MakeSupportPeek(), options);
+            var built = DynamicDeserializer.Deserialize(reader.MakeSupportPeek(), options);
 
             return built.BeingBuilt;
         }

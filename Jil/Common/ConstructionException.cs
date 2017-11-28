@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jil.Common
+namespace JilFork.Common
 {
     // Just a common type to act as a "couldn't build this junk!" catch-all
     sealed class ConstructionException : Exception

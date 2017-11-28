@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Jil
+namespace JilFork
 {
     /// <summary>
     /// Configuration options for Jil serialization, passed to the JSON.Serialize method.

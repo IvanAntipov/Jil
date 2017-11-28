@@ -1,12 +1,8 @@
-﻿using Jil.Deserialize;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using JilFork.Deserialize;
 
-namespace Jil.DeserializeDynamic
+namespace JilFork.DeserializeDynamic
 {
     sealed partial class DynamicDeserializer
     {
