@@ -21,7 +21,21 @@ var deserialized = JSON.Deserialize<ObjectWithRaw>(json)
 Assert.IsTrue(deserialized.Data.Raw == "{\"Prop1\":1, ... othre fields}"
 
 ```
+Support for Union of array element type
+```C#
+public ObjectWithUnion
+{
+  [JilDirective(Name = "content", IsUnion = true)]
+  public string[] ContentStr{get;set;}
+  [JilDirective(Name = "content", IsUnion = true)]
+  public SomeClass[] ContentStr{get;set;}
+}
+public SomeClass
+{
+....
+}
 
+```
 ### Jil
 
 A fast JSON (de)serializer, built on [Sigil](https://github.com/kevin-montrose/Sigil) with a number of somewhat crazy optimization tricks.
