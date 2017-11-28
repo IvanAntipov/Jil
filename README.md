@@ -1,3 +1,27 @@
+### Fork Features
+Raw field support - you can store Raw json stream of deserialized object.
+```C#
+[JilClassDirective("Raw")]
+public class ObjectWithRaw
+{
+   public string Raw{get;set;}
+   [JilDirective(Name = "Prop1")]
+   public int Prop1{get;set;
+}
+pucblic Container
+{
+  public ObjectWithRaw Data{get;set}
+  ... other fields
+}
+
+var json = "{\"Data\":{\"Prop1\":1, ... othre fields}}"
+
+var deserialized = JSON.Deserialize<ObjectWithRaw>(json)
+
+Assert.IsTrue(deserialized.Data.Raw == "{\"Prop1\":1, ... othre fields}"
+
+```
+
 ### Jil
 
 A fast JSON (de)serializer, built on [Sigil](https://github.com/kevin-montrose/Sigil) with a number of somewhat crazy optimization tricks.
