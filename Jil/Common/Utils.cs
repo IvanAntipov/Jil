@@ -1059,6 +1059,96 @@ namespace JilFork.Common
                     .ToList();
         }
 
+        
+        public static WeighTypeResult WeighType(Type typeToWeigh, IReadOnlyCollection<Type> recursiveOrReusedTypes, int maxTypeWeight)
+        {
+            var nestedTypes = new List<Type>();
+            if (typeToWeigh.IsPrimitiveType() || typeToWeigh.IsEnum())
+            {                
+            }
+            else if(typeToWeigh.IsNullableType())
+            {
+                var underlyingType = Nullable.GetUnderlyingType(typeToWeigh);
+                nestedTypes.Add(underlyingType);
+                
+            }
+            else if (typeToWeigh.IsListType())
+            {
+                var listI = typeToWeigh.GetListInterface();
+                var valType = listI.GetGenericArguments()[0];
+                nestedTypes.Add(valType);
+            }
+            else if (typeToWeigh.IsDictionaryType())
+            {
+                var dictI = typeToWeigh.GetDictionaryInterface();
+                var valType = dictI.GetGenericArguments()[1];
+                nestedTypes.Add(valType);
+            }
+            else if (typeToWeigh.IsDictionaryType())
+            {
+                var dictI = typeToWeigh.GetDictionaryInterface();
+                var valType = dictI.GetGenericArguments()[1];
+                nestedTypes.Add(valType);
+            }
+            else if(typeToWeigh.IsEnumerableType())
+            {
+                var enumI = typeToWeigh.GetEnumerableInterface();
+                var valType = enumI.GetGenericArguments()[0];
+                nestedTypes.Add(valType);
+            }
+            else
+            {
+                var propertiesTypes = 
+                    typeToWeigh.GetFields(BindingFlags.Instance | BindingFlags.Public).Where(i => i.ShouldUseMember()).Select(i => i.FieldType)
+                    .Concat(typeToWeigh.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => p.GetMethod != null).Where(i => i.ShouldUseMember()).Select(i => i.PropertyType))
+                    .ToList();      
+                nestedTypes.AddRange(propertiesTypes);
+            }
+            var nestedTypesWeights =
+                nestedTypes
+                .Select(t => 
+                    new
+                    {
+                        Nested = t,
+                        Weight = 
+                            recursiveOrReusedTypes.Contains(t)
+                            ?new WeighTypeResult(1, new Type[0])
+                            : WeighType(t, recursiveOrReusedTypes, maxTypeWeight)
+                    });
+
+            var currentTypeWeight =
+                  new WeighTypeResult(
+                      nestedTypesWeights.Sum(i => i.Weight.TypeWeight > maxTypeWeight?1:i.Weight.TypeWeight) + 1,
+                      nestedTypesWeights
+                        .SelectMany(i => i.Weight.NestedHeavyTypes)
+                        .Concat(
+                            nestedTypesWeights
+                            .Where(i => i.Weight.TypeWeight > maxTypeWeight)
+                            .Select(i => i.Nested))
+                        .ToList());
+            return currentTypeWeight;
+        }
+
+        /// <summary>
+        /// Sigil may be too slow for practical use if you need:More than ~100 labels and branches Methods with more than ~10,000 instructions - from https://github.com/kevin-montrose/Sigil
+        /// We want to limit comlexity of single dynamic object.
+        /// If class have a lot of nested properties to be deserialized in line, this class will be marked as "heavy" and deserialized as function call
+        /// </summary>
+        /// <param name="rootType"></param>
+        /// <param name="recursiveOrReusedTypes"></param>
+        /// <param name="maxTypeWeight"></param>
+        /// <returns></returns>
+        public static List<Type> FindHeavyTypes(Type rootType, IReadOnlyCollection<Type> recursiveOrReusedTypes, int maxTypeWeight)
+        {
+            var rootWeight = WeighType(rootType, recursiveOrReusedTypes, maxTypeWeight);
+            var res = rootWeight.NestedHeavyTypes.ToList();
+            if (rootWeight.TypeWeight > maxTypeWeight)
+            {
+                res.Add(rootType);
+            }
+            return res;
+        }
+
         public static string SafeConvertFromUtf32(int utf32)
         {
             if (utf32 > 0x10ffff || (utf32 >= 0x00d800 && utf32 <= 0x00dfff))
@@ -1759,6 +1849,17 @@ namespace JilFork.Common
                 arr[i] = generator(i);
             }
             return arr;
+        }
+        public class WeighTypeResult
+        {
+            public WeighTypeResult(int typeWeight, IReadOnlyCollection<Type> nestedHeavyTypes)
+            {
+                TypeWeight = typeWeight;
+                NestedHeavyTypes = nestedHeavyTypes;
+            }
+
+            public int TypeWeight { get; private set; }
+            public IReadOnlyCollection<Type> NestedHeavyTypes { get; private set; }
         }
     }
 }

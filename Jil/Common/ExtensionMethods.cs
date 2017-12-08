@@ -12,6 +12,8 @@ namespace JilFork.Common
 {
     static class ExtensionMethods
     {
+        public const int MaxTypeWeight = 20;
+
         public static ConstructorInfo GetPublicOrPrivateConstructor(this Type onType, params Type[] parameterTypes)
         {
             return onType.GetConstructor(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance, parameterTypes);
@@ -1302,12 +1304,14 @@ namespace JilFork.Common
             return ret;
         }
 
-        public static HashSet<Type> FindRecursiveOrReusedTypes(this Type forType)
+        public static HashSet<Type> FindRecursiveOrReusedOrHeavyTypes(this Type forType)
         {
             var recursive = Utils.FindRecursiveTypes(forType);
             var reusedTypes = Utils.FindReusedTypes(forType);
+            var recursiveOrReused = recursive.Concat(reusedTypes).ToList();
+            var heavyTypes = Utils.FindHeavyTypes(forType, recursiveOrReused, maxTypeWeight: MaxTypeWeight);
 
-            return new HashSet<Type>(recursive.Concat(reusedTypes));
+            return new HashSet<Type>(recursiveOrReused.Concat(heavyTypes));
         }
     }
 }

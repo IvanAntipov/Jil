@@ -1,5 +1,6 @@
 bin/
 obj/
+FastTests/
 *.suo
 *.sln.ide/
 *.user

@@ -4036,7 +4036,7 @@ namespace JilFork.Serialize
             // if we're serializing dynamically, we can't actually preload
             if (CallOutOnPossibleDynamic) return new HashSet<Type>();
 
-            var ret = forType.FindRecursiveOrReusedTypes();
+            var ret = forType.FindRecursiveOrReusedOrHeavyTypes();
             foreach (var primeType in ret)
             {
                 MethodInfo loadMtd;

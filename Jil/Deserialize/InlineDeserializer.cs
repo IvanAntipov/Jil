@@ -1161,7 +1161,7 @@ namespace JilFork.Deserialize
                 Emit.LoadConstant('n');             // int n
                 Emit.BranchIfEqual(maybeNull);      // --empty--
 
-                Build(nullableMember, underlying, fromNullable: true);  // underlying
+                Build(nullableMember, underlying,fromNullable: true);  // underlying
                 Emit.NewObject(nullableConst);      // nullableType
                 Emit.Branch(done);                  // nullableType
 
@@ -1988,7 +1988,7 @@ namespace JilFork.Deserialize
             }
             else
             {
-                Build(member, memberType);          // objType(*?) memberType
+                Build(member, memberType);          // objType(*?) memberType                
             }
 
             if (member is FieldInfo)
@@ -2913,7 +2913,7 @@ namespace JilFork.Deserialize
                 var funcInvoke = funcType.GetMethod("Invoke");
 
                 LoadRecursiveTypeDelegate(forType); // Func<TextReader, int, memberType>
-                Emit.LoadLocal(ReaderName);               // Func<TextReader, int, memberType> TextReader
+                Emit.LoadLocal(ReaderName);         // Func<TextReader, int, memberType> TextReader
                 Emit.LoadArgument(1);               // Func<TextReader, int, memberType> TextReader int
                 Emit.LoadConstant(1);               // Func<TextReader, int, memberType> TextReader int int
                 Emit.Add();                         // Func<TextReader, int, memberType> TextReader int
@@ -2933,9 +2933,32 @@ namespace JilFork.Deserialize
             ReadObject(forType);
         }
 
+        void EmitCallDeserialize(Type forType)
+        {
+            Type funcType;
+
+            if (ReadingFromString)
+            {
+                funcType = typeof(StringThunkDelegate<>).MakeGenericType(forType);
+            }
+            else
+            {
+                funcType = typeof(Func<,,>).MakeGenericType(typeof(TextReader), typeof(int), forType);
+            }
+            var funcInvoke = funcType.GetMethod("Invoke");
+
+            LoadRecursiveTypeDelegate(forType); // Func<TextReader, int, memberType>
+            Emit.LoadLocal(ReaderName);               // Func<TextReader, int, memberType> TextReader
+            Emit.LoadArgument(1);               // Func<TextReader, int, memberType> TextReader int
+            Emit.LoadConstant(1);               // Func<TextReader, int, memberType> TextReader int int
+            Emit.Add();                         // Func<TextReader, int, memberType> TextReader int
+            Emit.Call(funcInvoke);              // memberType
+            return;
+        }
+
         HashSet<Type> FindAndPrimeRecursiveOrReusedTypes(Type forType)
         {
-            var ret = forType.FindRecursiveOrReusedTypes();
+            var ret = forType.FindRecursiveOrReusedOrHeavyTypes();
             foreach (var primeType in ret)
             {
                 MethodInfo loadMtd;
