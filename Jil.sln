@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFork", "TestFork\TestFo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FastTests", "FastTests\FastTests.csproj", "{607D74AF-8E27-4F8B-B63A-D478363B37B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmark2", "Benchmark2\Benchmark2.csproj", "{A0990202-57B7-4BB9-8126-FBAE43BE2DDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,12 @@ Global
 		{607D74AF-8E27-4F8B-B63A-D478363B37B9}.Release_ExhaustiveTest|Any CPU.Build.0 = Release|Any CPU
 		{607D74AF-8E27-4F8B-B63A-D478363B37B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{607D74AF-8E27-4F8B-B63A-D478363B37B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0990202-57B7-4BB9-8126-FBAE43BE2DDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0990202-57B7-4BB9-8126-FBAE43BE2DDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0990202-57B7-4BB9-8126-FBAE43BE2DDA}.Release_ExhaustiveTest|Any CPU.ActiveCfg = Release|Any CPU
+		{A0990202-57B7-4BB9-8126-FBAE43BE2DDA}.Release_ExhaustiveTest|Any CPU.Build.0 = Release|Any CPU
+		{A0990202-57B7-4BB9-8126-FBAE43BE2DDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0990202-57B7-4BB9-8126-FBAE43BE2DDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
