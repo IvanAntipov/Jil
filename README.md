@@ -1,5 +1,5 @@
 ### Fork Features
-Raw field support - you can store Raw json stream of deserialized object.
+1. Raw field support - you can store Raw json stream of deserialized object.
 ```C#
 [JilClassDirective("Raw")]
 public class ObjectWithRaw
@@ -21,7 +21,7 @@ var deserialized = JSON.Deserialize<ObjectWithRaw>(json)
 Assert.IsTrue(deserialized.Data.Raw == "{\"Prop1\":1, ... othre fields}"
 
 ```
-Support for Union of array element type
+2. Support for Union of array element type
 ```C#
 public ObjectWithUnion
 {
@@ -36,7 +36,7 @@ public SomeClass
 }
 
 ```
-Support for very complex classes (heavy classes)
+3. Support for very complex classes (heavy classes)
 
 ### Jil
 
