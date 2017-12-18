@@ -7875,7 +7875,7 @@ namespace JilTests
                 [JilDirective(IsUnion = true, Name = "sub_text")]
                 public string[] sub_text_s { get; set; }
                 
-                [JilClassDirective(RawPropertyName = "Raw")]
+                [JilClassDirective("Raw")]
                 public class JsonUnionArraySubClass
                 {
                     public ulong? id { get; set; }
