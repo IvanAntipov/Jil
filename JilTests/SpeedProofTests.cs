@@ -253,7 +253,8 @@ namespace JilTests
         }
 
         // These tests make *no sense* in debug
-#if !DEBUG
+#if FALSE
+        //#if !DEBUG 
 
         public class _ReorderMembers
         {

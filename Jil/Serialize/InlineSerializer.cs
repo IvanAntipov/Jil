@@ -1822,9 +1822,9 @@ namespace JilFork.Serialize
                     doWriteMember(onType, toWriteMember, inLocal, isFirst, ref wouldBeFirst);   // [obj(*?)] obj(*?) 
                     Emit.Branch(done);                                                          // [obj(*?)]
 
-                    if (wouldBeFirst != updateFirstPassTo && updateFirstPassTo == null)
+                    if (wouldBeFirst == false)
                     {
-                        updateFirstPassTo = wouldBeFirst;
+                        updateFirstPassTo = false;
                     }
 
                     Emit.MarkLabel(next);                                                       // [obj(*?)] Type
@@ -1857,9 +1857,10 @@ namespace JilFork.Serialize
                     doWriteMember(onType, members[0], inLocal, isFirst, ref wouldBeFirst);          // [obj(*?)]
                     Emit.Branch(done);                                                              // [obj(*?)]
 
-                    if (wouldBeFirst != updateFirstPassTo && updateFirstPassTo == null)
+
+                    if (wouldBeFirst == false)
                     {
-                        updateFirstPassTo = wouldBeFirst;
+                        updateFirstPassTo = false;
                     }
                 }
 
@@ -1874,6 +1875,11 @@ namespace JilFork.Serialize
                 Emit.Throw();                                                           // --empty--
 
                 Emit.MarkLabel(done);                                                   // [obj(*?)]
+
+                if (updateFirstPassTo == false)
+                {
+                    firstPass = false;
+                }
 
                 return;
             }
