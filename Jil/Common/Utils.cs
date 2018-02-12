@@ -1114,7 +1114,8 @@ namespace JilFork.Common
                             recursiveOrReusedTypes.Contains(t)
                             ?new WeighTypeResult(1, new Type[0])
                             : WeighType(t, recursiveOrReusedTypes, maxTypeWeight)
-                    });
+                    })
+                .ToList();
 
             var currentTypeWeight =
                   new WeighTypeResult(
