@@ -115,6 +115,7 @@
     <Compile Include="BadlySpecifiedTypeTests.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="RawPropertyNameTest.cs" />
+    <Compile Include="SerializationAndDeserializationNamesTest.cs" />
     <Compile Include="SerializeTests.cs" />
     <Compile Include="SpeedProofTests.cs" />
     <Compile Include="UnionArrayTest.cs" />

@@ -1644,7 +1644,7 @@ namespace JilFork.Deserialize
             }
 
             var rawPropertyName =
-                ExtensionMethods.GetCustomAttribute<JilClassDirectiveAttribute>(objType)
+                objType.GetCustomAttribute<JilClassDirectiveAttribute>()
                     ?.RawPropertyName;
             PropertyInfo rawProperty = null;
             Local thunkReaderStartIndex = null;

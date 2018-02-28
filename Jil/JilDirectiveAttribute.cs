@@ -20,10 +20,20 @@ namespace JilFork
         /// </summary>
         public bool Ignore { get; set; }
         /// <summary>
-        /// If non-null, the decorated member's name in serialization will match
+        /// If non-null, the decorated member's name in serialization and deserialization will match
         /// the value of Name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name { get; set; }        
+        /// <summary>
+        /// If non-null, the decorated member's name in serialization will match
+        /// the value of Name, overwrite Name property during serialization
+        /// </summary>
+        public string SerializationName { get; set; }
+        /// <summary>
+        /// If non-null, the decorated member's name in deserialization will match
+        /// the value of Name, overwrite Name property during deserialization
+        /// </summary>
+        public string DeserializationName { get; set; }
         /// <summary>
         /// If true and the member annotated is an enum, will cause Jil to convert
         /// the enum to the appropriate primitive type before serializing; and expect
