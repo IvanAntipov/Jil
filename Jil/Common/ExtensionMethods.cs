@@ -267,15 +267,7 @@ namespace JilFork.Common
             where T : Attribute
         {
             var info = type.GetTypeInfo();
-            var data = info.CustomAttributes.Where(a => a.AttributeType == typeof(T)).SingleOrDefault();
-
-            if (data == null) return null;
-
-            var cons = data.Constructor;
-            var args = data.ConstructorArguments.Select(a => a.Value).ToArray();
-            var ret = cons.Invoke(args);
-
-            return (T)ret;
+            return info.GetCustomAttributes<T>().SingleOrDefault();
         }
 
         public static bool IsInterface(this Type type)
@@ -327,7 +319,23 @@ namespace JilFork.Common
         public static string GetSerializationName(this MemberInfo member, SerializationNameFormat serializationNameFormat)
         {
             var jilDirectiveAttr = member.GetCustomAttribute<JilDirectiveAttribute>();
-            if (jilDirectiveAttr != null && jilDirectiveAttr.Name != null) return jilDirectiveAttr.Name;
+            if (jilDirectiveAttr != null && (jilDirectiveAttr.SerializationName != null || jilDirectiveAttr.Name != null)) return jilDirectiveAttr.SerializationName ?? jilDirectiveAttr.Name;
+
+            var dataMemberAttr = member.GetCustomAttribute<System.Runtime.Serialization.DataMemberAttribute>();
+            if (dataMemberAttr != null && dataMemberAttr.Name != null) return dataMemberAttr.Name;
+
+            switch (serializationNameFormat)
+            {
+                case SerializationNameFormat.CamelCase:
+                    return member.Name.ToCamelCase();
+                default:
+                    return member.Name;
+            }
+        }
+        public static string GetDeserializationName(this MemberInfo member, SerializationNameFormat serializationNameFormat)
+        {
+            var jilDirectiveAttr = member.GetCustomAttribute<JilDirectiveAttribute>();
+            if (jilDirectiveAttr != null && ( jilDirectiveAttr.DeserializationName != null || jilDirectiveAttr.Name != null)) return jilDirectiveAttr.DeserializationName??jilDirectiveAttr.Name;
 
             var dataMemberAttr = member.GetCustomAttribute<System.Runtime.Serialization.DataMemberAttribute>();
             if (dataMemberAttr != null && dataMemberAttr.Name != null) return dataMemberAttr.Name;

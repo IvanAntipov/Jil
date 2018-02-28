@@ -75,7 +75,7 @@ namespace JilFork.Deserialize
 
             foreach (var member in withoutHidden)
             {
-                var name = member.GetSerializationName(serializationNameFormat);
+                var name = member.GetDeserializationName(serializationNameFormat);
                 List<MemberInfo> members;
                 if (!setters.TryGetValue(name, out members))
                 {
