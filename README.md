@@ -37,12 +37,20 @@ public SomeClass
 
 ```
 3. Support for very complex classes (heavy classes)
+4. Different serialization and deserialization names
+```C#
+public class SerializeAtoCDeserializeCtoA
+{
+    [JilDirective(DeserializationName = "B", SerializationName = "A")]
+    public string C { get; set; }
+}
+```
 
 ### Jil
 
 A fast JSON (de)serializer, built on [Sigil](https://github.com/kevin-montrose/Sigil) with a number of somewhat crazy optimization tricks.
 
-[Releases are available on Nuget](https://www.nuget.org/packages/Jil/) in addition to this repository.
+[Releases are available on Nuget](https://www.nuget.org/packages/JilFork/) in addition to this repository.
 
 ## Usage
 
